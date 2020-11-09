@@ -1,10 +1,11 @@
 CREATE TABLE Inventory(
+ i_storeID    VARCHAR(30) not NULL,
  i_barcode  INT(15,0) not NULL,
- i_stock       INT(15,0) not NULL,
- i_storeID    INT(15,0) not NULL
+ i_stock       INT(15,0) not NULL
 );
 
 CREATE TABLE Producer(
+ pr_name VARCHAR(25) not NULL,
  pr_type VARCHAR(25) not NULL,
  pr_cityKey  INT(15,0) not NULL,   
  pr_shippingRateKey  INT(15,0) not NULL
@@ -12,7 +13,7 @@ CREATE TABLE Producer(
 
 
 CREATE TABLE Supplier(
- s_supplierID  INT(15,0) not NULL,
+ s_supplierID  VARCHAR(25) not NULL,
  s_cityKey      INT(15,0) not NULL,
  s_shippingRateKey  INT(15,0) not NULL
 );
@@ -26,13 +27,13 @@ CREATE TABLE Product(
 );
 
 CREATE TABLE Customer(
- cu_storeID  INT(15,0) not NULL,
- cu_barcode  INT(15,0) not NULL,
- cu_customerID  INT(15,0) not NULL
+ cu_customerID  VARCHAR(30) not NULL,
+ cu_storeID  VARCHAR(30) not NULL,
+ cu_barcode  INT(15,0) not NULL
 );
 
 CREATE TABLE Store(
- st_storeID  INT(15,0) not NULL,
+ st_storeID  VARCHAR(25) not NULL,
  st_cityKey  INT(15,0) not NULL,
  st_type   VARCHAR(25) not NULL
 );
@@ -54,12 +55,12 @@ CREATE TABLE City(
 );
 
 CREATE TABLE StoreSupp(
- stu_storeID    INT(15,0) not NULL,
+ stu_storeID VARCHAR(25) not NULL,
  stu_suppID  INT(15,0) not NULL
 );
 
 CREATE TABLE ProductCustomer(
- pc_custID        INT(15,0) not NULL,
+ pc_custID      VARCHAR(30) not NULL,
  pc_barcode     INT(15,0) not NULL
 );
 
@@ -81,32 +82,3 @@ INSERT INTO ProductCustomer Values (int,int);
 --Add test data
 INSERT INTO Inventory Values (2,3,5);
 */
---Display test data
-SELECT *
-FROM Inventory;
-
---Use Case Queries
---Lookup Item
-SELECT i_barcode, i_stock, i_storeID, p_price
-FROM Inventory, Product
-WHERE i_barcode = p_barcode;
---Display Inventory
-SELECT i_storeID, i_barcode, i_stock, p_price
-FROM Inventory, Product, Store
-WHERE i_barcode = p_barcode
-AND st_storeID = i_storeID;
---Display Price
-SELECT  i_barcode, p_price
-FROM Inventory, Product
-WHERE i_barcode = p_barcode;
---Lookup City of Store that has item
-SELECT ci_name
-FROM Inventory, Store, City
-WHERE ci_cityKey = st_cityKey
-AND st_storeID = i_storeID;
---Add Product
---Delete Product
---Update Product Price
---Add to Inventory
---Remove From Inventory
---Enter/Scan Barcode

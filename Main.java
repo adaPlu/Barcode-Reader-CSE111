@@ -1,8 +1,9 @@
+package Project1.BarcodeReader;
 
 public class Main {
     public static void main(String args[]) {
-        barcodeDatabase db = new barcodeDatabase();
-        createNewDatabase("C:/Users/plugu/Documents/Main/CSE111/Project","test.db");
+        Barcode db = new Barcode();
+       // db.createNewDatabase("C:/Users/plugu/Documents/Main/CSE111/Project","test.db");
 
         db.openConnection("data/inventory.sqlite");
 
