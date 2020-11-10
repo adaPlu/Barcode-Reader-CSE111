@@ -154,7 +154,7 @@ SELECT  i_barcode, p_price
 FROM Inventory, Product
 WHERE i_barcode = p_barcode;
 
---Lookup City of Store that has item
+--Lookup City of Store
 SELECT ci_name
 FROM Inventory, Store, City
 WHERE ci_cityKey = st_cityKey
@@ -164,7 +164,12 @@ AND st_storeID = i_storeID;
 --INSERT INTO Product(p_barcode,p_supplerID,
 --p_type, p_price) Values()
 --Delete Product
+--DELETE
 --Update Product Price
+
 --Add to Inventory
+--INSERT
 --Remove From Inventory
+--DELETE
 --Enter/Scan Barcode
+--?
