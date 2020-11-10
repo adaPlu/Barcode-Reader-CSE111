@@ -1,26 +1,27 @@
 .mode "csv"
 .separator "|"
-.import "data/region.tbl" region
+.import "data/city.tbl" city
 
 .separator "|"
 .import "data/customer.tbl" customer
 
+.separator "|"
+.import "data/product.tbl" product
 
 .separator "|"
-.import "data/lineitem.tbl" lineitem
-
-
-.separator "|"
-.import "data/nation.tbl" nation 
+.import "data/inventory.tbl" inventory 
 
 .separator "|"
-.import "data/orders.tbl" orders
+.import "data/producer.tbl" producer
 
 .separator "|"
-.import "data/part.tbl" part
+.import "data/shipping.tbl" shipping
 
 .separator "|"
-.import "data/partsupp.tbl" partsupp
+.import "data/storesupp.tbl" storesupp
+
+.separator "|"
+.import "data/productcustomer.tbl" productcustomer
 
 .separator "|"
 .import "data/supplier.tbl" supplier

@@ -19,11 +19,10 @@ CREATE TABLE Supplier(
 );
 
 CREATE TABLE Product(
- p_name VARCHAR(25) not NULL,
  p_barcode  INT(15,0) not NULL,
- p_supplierID  INT(15,0) not NULL,
+ p_supplierID  VARCHAR(25) not NULL,
  p_type   VARCHAR(25) not NULL,
- p_price    INT(15,0) not NULL
+ p_price    DECIMAL(15,0) not NULL
 );
 
 CREATE TABLE Customer(
@@ -56,7 +55,7 @@ CREATE TABLE City(
 
 CREATE TABLE StoreSupp(
  stu_storeID VARCHAR(25) not NULL,
- stu_suppID  INT(15,0) not NULL
+ stu_suppID  VARCHAR(25) not NULL
 );
 
 CREATE TABLE ProductCustomer(
