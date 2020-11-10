@@ -1,3 +1,5 @@
+--sqlite3 data/inventory.sqlite < createTables.sql > output/1.out
+
 CREATE TABLE Inventory(
  i_storeID    VARCHAR(30) not NULL,
  i_barcode  INT(15,0) not NULL,
@@ -62,22 +64,3 @@ CREATE TABLE ProductCustomer(
  pc_custID      VARCHAR(30) not NULL,
  pc_barcode     INT(15,0) not NULL
 );
-
-/*
---For manual insertion and their input type
-INSERT INTO Inventory Values (int,int,int);
-INSERT INTO Producer Values (varchar,int,int);
-INSERT INTO Supplier Values (int,int,int);
-INSERT INTO Product Values (varchar,int,int,varchar,int);
-INSERT INTO Customer Values (int,int,int);
-INSERT INTO Store Values (int,int,varchar);
-INSERT INTO ShippingCost Values (int,decimal);
-INSERT INTO Country Values (int,varchar);
-INSERT INTO City Values (int,int,varchar);
-INSERT INTO StoreSupp Values (int,int);
-INSERT INTO ProductCustomer Values (int,int);
-
---To test that the table was properly created and is taking inputs
---Add test data
-INSERT INTO Inventory Values (2,3,5);
-*/

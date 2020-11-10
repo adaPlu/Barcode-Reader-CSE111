@@ -3,6 +3,9 @@
 .import "data/city.tbl" city
 
 .separator "|"
+.import "data/country.tbl" country
+
+.separator "|"
 .import "data/customer.tbl" customer
 
 .separator "|"
@@ -15,7 +18,7 @@
 .import "data/producer.tbl" producer
 
 .separator "|"
-.import "data/shipping.tbl" shipping
+.import "data/shippingcost.tbl" shippingcost
 
 .separator "|"
 .import "data/storesupp.tbl" storesupp
