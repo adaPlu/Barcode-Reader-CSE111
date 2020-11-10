@@ -1,5 +1,5 @@
---Delete all Data
-/*
+--Deletes all Data in Tables
+--/*
 delete from Inventory;
 delete from Producer;
 delete from Supplier;
@@ -11,7 +11,7 @@ delete from Country;
 delete from ShippingCost;
 delete from StoreSupp;
 delete from ProductCustomer;
-*/
+--*/
 --Create all tables
 CREATE TABLE IF NOT EXISTS Inventory(
  i_storeID    VARCHAR(30) not NULL,
@@ -129,9 +129,10 @@ INSERT INTO ProductCustomer Values (int,int);
 --Add test data
 INSERT INTO Inventory Values (2,3,5);
 */
+
 --Queries
 --Display test data
---SELECT * FROM Inventory;
+SELECT * FROM Inventory;
 
 --Use Case Queries
 --Lookup Item
