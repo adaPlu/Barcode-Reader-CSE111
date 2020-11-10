@@ -110,6 +110,9 @@ CREATE TABLE IF NOT EXISTS ProductCustomer(
 .separator "|"
 .import "data/supplier.tbl" supplier
 
+.separator "|"
+.import "data/store.tbl" store
+
 
 /* This didnt work for me? --Ada
 --For manual insertion and their input type
