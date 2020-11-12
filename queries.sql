@@ -12,7 +12,7 @@ delete from ShippingCost;
 delete from StoreSupp;
 delete from ProductCustomer;
 --*/
---Create all tables
+--Creates all tables
 CREATE TABLE IF NOT EXISTS Inventory(
  i_storeID    VARCHAR(30) not NULL,
  i_barcode  INT(15,0) not NULL,
@@ -113,25 +113,41 @@ CREATE TABLE IF NOT EXISTS ProductCustomer(
 .separator "|"
 .import "data/store.tbl" store
 
+------------------------------TABLE DISPLAY------------------------------
+SELECT *
+FROM Inventory;
 
-/* This didnt work for me? --Ada
---For manual insertion and their input type
-INSERT INTO Inventory Values (int,int,int);
-INSERT INTO Producer Values (varchar,int,int);
-INSERT INTO Supplier Values (int,int,int);
-INSERT INTO Product Values (varchar,int,int,varchar,int);
-INSERT INTO Customer Values (int,int,int);
-INSERT INTO Store Values (int,int,varchar);
-INSERT INTO ShippingCost Values (int,decimal);
-INSERT INTO Country Values (int,varchar);
-INSERT INTO City Values (int,int,varchar);
-INSERT INTO StoreSupp Values (int,int);
-INSERT INTO ProductCustomer Values (int,int);
+SELECT *
+FROM Producer;
 
---To test that the table was properly created and is taking inputs
---Add test data
-INSERT INTO Inventory Values (2,3,5);
-*/
+SELECT *
+FROM Supplier;
+
+SELECT *
+FROM Product;
+
+SELECT *
+FROM Customer;
+
+SELECT *
+FROM Store;
+
+SELECT *
+FROM ShippingCost;
+
+SELECT *
+FROM Country;
+
+SELECT *
+FROM City;
+
+SELECT *
+FROM StoreSupp;
+
+SELECT *
+FROM ProductCustomer;
+
+------------------------------QUERIES------------------------------
 
 --Queries
 --Display test data
@@ -160,16 +176,33 @@ FROM Inventory, Store, City
 WHERE ci_cityKey = st_cityKey
 AND st_storeID = i_storeID;
 
---Add Product
---INSERT INTO Product(p_barcode,p_supplerID,
---p_type, p_price) Values()
---Delete Product
---DELETE
---Update Product Price
 
---Add to Inventory
---INSERT
+--Add Product
+INSERT INTO Product Values(11326789, 'Supplier#000000025', 'electronics', 89.99);
+
+--Delete Product
+DELETE FROM Product WHERE p_barcode = 10000001;
+
+--Update Product Price
+UPDATE Product
+SET p_barcode = 10000002,
+    p_supplierID = 'Supplier#000000002',
+    p_type = 'produce',
+    p_price = 5.96
+WHERE
+    p_barcode = 10000002;
+
+--Add Stock to Inventory
+INSERT INTO Inventory VALUES('Store#025', 10000001, 35);
+
 --Remove From Inventory
+DELETE FROM Inventory WHERE i_barcode = 10000001 AND i_storeID = 'Store#001';
+
+--Remove scanned item from inventory
+UPDATE Inventory
+SET i_stock = (SELECT i_stock FROM Inventory WHERE i_barcode = 10000002 AND i_storeID = 'Store#002') - 1,
+WHERE i_barcode = 10000002 AND i_storeID = 'Store#002';
+
 --DELETE
 --Enter/Scan Barcode
 --?
