@@ -1,59 +1,149 @@
+--Queries
+--------------Use Case Queries-----------------
+
 --Q1
---Print all the stores with the total number of suppliers that they have
+--Lookup Item
+SELECT i_barcode, i_stock, i_storeID, p_price
+FROM Inventory, Product
+WHERE i_barcode = p_barcode;
 
 --Q2
---Print Country with the highest and lowest shiping rate
+--Display Inventory
+SELECT i_storeID, i_barcode, i_stock, p_price
+FROM Inventory, Product, Store
+WHERE i_barcode = p_barcode
+AND st_storeID = i_storeID;
 
 --Q3
---Print inventory that needs to restock
+--Display Price
+SELECT  i_barcode, p_price
+FROM Inventory, Product
+WHERE i_barcode = p_barcode;
 
 --Q4
---Print producer's city and country
+--Lookup City of Store
+SELECT ci_name
+FROM Inventory, Store, City
+WHERE ci_cityKey = st_cityKey
+AND st_storeID = i_storeID;
 
 --Q5
---Print supplier and producer with same shipping rate
+--Add Product
+INSERT INTO Product Values(11326789, 'Supplier#000000025', 'electronics', 89.99);
 
 --Q6
---Print suppliers with shipping rate <.15
+--Delete Product
+DELETE FROM Product WHERE p_barcode = 10000001;
 
 --Q7
---Print store with their producers city
+--Update Product Price
+UPDATE Product
+SET p_barcode = 10000002,
+    p_supplierID = 'Supplier#000000002',
+    p_type = 'produce',
+    p_price = 5.96
+WHERE
+    p_barcode = 10000002;
+
 
 --Q8
---Print the store that received at least .11 shipping rate in more than 10 products
+--Add Stock to Inventory
+INSERT INTO Inventory VALUES('Store#025', 10000001, 35);
 
 --Q9
--- Print the number of suppliers from every country
+--Remove From Stock  Inventory
+DELETE FROM Inventory WHERE i_barcode = 10000001 AND i_storeID = 'Store#001';
 
 --Q10
---Print avg shipping rate for each country and sort in alphabetical order
+--Remove scanned item from inventory
+SELECT  i_stock -1 FROM Inventory WHERE i_barcode = 10000002 AND i_storeID = 'Store#002';
+UPDATE Inventory
+SET i_stock =  1
+WHERE i_barcode = 10000002 AND i_storeID = 'Store#002';
+
+
+--To display scaned barcodes we can read from a file which
+--contains the barcodes to look up
 
 --Q11
---Delete country with shipping rate <.09
+--Display product type and price base on barcode '10100801' entered
+SELECT p_barcode,p_type,p_price
+FROM Product
+WHERE p_barcode = 10100801;
+
+--WHERE p_barcode = {}; << if we use python to take in the barcode as key input
+ 
 
 --Q12
---Update Norway's shipping rate to .20
+--Displays the supplier with the least expensive product
+--and the supplier with the most expensive product
+SELECT p_supplierID as 'Supplier',p_type as 'Product type',MAX(p_price) as 'Price'
+FROM Supplier,Product,City
+WHERE s_cityKey = ci_cityKey
+    AND s_supplierID = p_supplierID
+UNION 
+SELECT p_supplierID,p_type ,MIN(p_price)
+FROM Supplier,Product,City
+WHERE s_cityKey = ci_cityKey
+    AND s_supplierID = p_supplierID;
+
+
 
 --Q13
---Delete country with mininum shipping rate
+--Display product type that needs to be restock. A product needs
+--to be restock if there are less than 15 in stock. 
+SELECT p_barcode,p_type,p_price,i_storeID,i_stock
+FROM Product, Inventory
+WHERE p_barcode = i_barcode
+    AND i_stock <= 15
+ORDER BY i_storeID;
+
+
 
 --Q14
---Print city with more than 2 different supplier
+--Display the avg price by product type
+SELECT AVG(p_price) as 'AVG price',p_type as 'Product type'
+FROM Product
+GROUP BY p_type;
+
 
 --Q15
---Print city with the most suppliers
+--Display the country and the number of suppliers that it has
+SELECT c_name, COUNT(s_cityKey) as 'Number of suppliers'
+FROM City,Country,Supplier
+WHERE ci_countryKey = c_countryKey
+AND s_cityKey = ci_cityKey
+GROUP BY c_name;
+
 
 --Q16
---Print city whos inventory is the lowest
+--Display city name and the number of suppliers it has
+SELECT ci_name as 'City',COUNT(s_cityKey) as 'Number of Supplier'
+FROM Supplier,City
+WHERE s_cityKey = ci_cityKey 
+GROUP by ci_name;
 
 --Q17
---UPDATE cities whos supplier has a shipping rate of <.10 to a rate of (current rate/2)*2.5
+--Display countries with the max and min shipping rate
+SELECT c_name as 'Country',MAX(c_shippingRate) as 'Shipping rate'
+FROM Country
+UNION
+SELECT c_name,MIN(c_shippingRate)
+FROM Country;
 
 --Q18
---Whats the avg amount of stores in a city
+--Display the different product type from Producer
+SELECT DISTINCT pr_type as 'Product category'
+FROM Producer;
 
 --Q19
---Whats the store's shipping rate for customer CC360
+--Display supplier and the number of product type that it supplies
+SELECT p_supplierID as 'Supplier',count(p_type) as 'Num of product type',p_type as 'Product type'
+FROM Product
+GROUP by  p_supplierID;
+
 
 --Q20
---Insert barcode 000111010 to inventory 
+--Deletes product that was created in Q5
+DELETE FROM Product 
+WHERE p_barcode = 11326789;
