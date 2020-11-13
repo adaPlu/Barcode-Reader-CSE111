@@ -22,14 +22,14 @@ CREATE TABLE IF NOT EXISTS Producer(
  pr_name VARCHAR(25) not NULL,
  pr_type VARCHAR(25) not NULL,
  pr_cityKey  INT(15,0) not NULL,   
- pr_shippingRateKey  INT(15,0) not NULL
+ pr_countryKey  INT(15,0) not NULL
 );
 
 
 CREATE TABLE IF NOT EXISTS Supplier(
  s_supplierID  VARCHAR(25) not NULL,
  s_cityKey      INT(15,0) not NULL,
- s_shippingRateKey  INT(15,0) not NULL
+ s_countryKey  INT(15,0) not NULL
 );
 
 CREATE TABLE IF NOT EXISTS Product(
