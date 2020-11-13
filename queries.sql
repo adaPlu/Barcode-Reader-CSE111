@@ -150,9 +150,6 @@ FROM ProductCustomer;
 ------------------------------QUERIES------------------------------
 
 --Queries
---Display test data
-SELECT * FROM Inventory;
-
 --Use Case Queries
 --Lookup Item
 SELECT i_barcode, i_stock, i_storeID, p_price
@@ -195,12 +192,13 @@ WHERE
 --Add Stock to Inventory
 INSERT INTO Inventory VALUES('Store#025', 10000001, 35);
 
---Remove From Inventory
+--Remove From Stock  Inventory
 DELETE FROM Inventory WHERE i_barcode = 10000001 AND i_storeID = 'Store#001';
 
 --Remove scanned item from inventory
+SELECT  i_stock -1 FROM Inventory WHERE i_barcode = 10000002 AND i_storeID = 'Store#002';
 UPDATE Inventory
-SET i_stock = (SELECT i_stock FROM Inventory WHERE i_barcode = 10000002 AND i_storeID = 'Store#002') - 1,
+SET i_stock =  1
 WHERE i_barcode = 10000002 AND i_storeID = 'Store#002';
 
 --DELETE
