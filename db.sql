@@ -1,6 +1,6 @@
 ------------------------------TABLES CREATED------------------------------
 
-CCREATE TABLE IF NOT EXISTS Inventory(
+CREATE TABLE IF NOT EXISTS Inventory(
  i_storeID    VARCHAR(30) not NULL,
  i_barcode  INT(15,0) not NULL,
  i_stock       INT(15,0) not NULL

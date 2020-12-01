@@ -1,7 +1,4 @@
-package Project1.BarcodeReader;
-
-
-   // STEP: Import required packages
+// STEP: Import required packages
 import java.sql.*;
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -10,7 +7,7 @@ import java.io.PrintWriter;
 import java.io.File;
 import java.util.ArrayList;
 
-public class Barcode {
+public class BarcodeDatabase {
     private Connection c = null;
     private String dbName;
     private boolean isConnected = false;
@@ -18,6 +15,21 @@ public class Barcode {
     private Statement stmt2 = null;
     private Statement stmt3 = null;
 
+    public static void userInterface(){
+        //user type selection
+        //manager menu
+            //add product
+            //change price
+            //lookup item
+
+
+        //clerk menu
+            //Check inventory
+            //Check price
+            //add to inventory
+            //remove from inventory
+            
+    }
     public static void createNewDatabase(String location, String fileName) {
 
         String url = "jdbc:sqlite:"+ location + fileName;
@@ -34,7 +46,7 @@ public class Barcode {
         }
     }
 
-    public void openConnection(String _dbName) {
+    private void openConnection(String _dbName) {
         dbName = _dbName;
 
         if (false == isConnected) {
@@ -65,7 +77,7 @@ public class Barcode {
         }
     }
 
-    public void closeConnection() {
+    private void closeConnection() {
         if (true == isConnected) {
             System.out.println("++++++++++++++++++++++++++++++++++");
             System.out.println("Close database: " + dbName);
@@ -85,25 +97,72 @@ public class Barcode {
             System.out.println("++++++++++++++++++++++++++++++++++");
         }
     }
-    /*
-    w_warehousekey decimal(9,0) not null,
-    w_name char(100) not null,
-    w_capacity decimal(6,0) not null,
-    w_suppkey decimal(9,0) not null,
-    w_nationkey decimal(2,0) not null
 
-    */
-    public void createTable() {
+    private void createTables() {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Create table");
         try {
+            /*
+ CREATE TABLE IF NOT EXISTS Inventory(i_storeID    VARCHAR(30) not NULL,i_barcode  INT(15,0) not NULL,i_stock  INT(15,0) not NULL);
+
+CREATE TABLE IF NOT EXISTS Producer(
+ pr_name VARCHAR(25) not NULL,
+ pr_type VARCHAR(25) not NULL,
+ pr_cityKey  INT(15,0) not NULL,   
+ pr_shippingRateKey  INT(15,0) not NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS Supplier(
+ s_supplierID  VARCHAR(25) not NULL,
+ s_cityKey      INT(15,0) not NULL,
+ s_shippingRateKey  INT(15,0) not NULL
+);
+
+CREATE TABLE IF NOT EXISTS Product(
+ p_barcode  INT(15,0) not NULL,
+ p_supplierID  VARCHAR(25) not NULL,
+ p_type   VARCHAR(25) not NULL,
+ p_price    DECIMAL(15,0) not NULL
+);
+
+CREATE TABLE IF NOT EXISTS Customer(
+ cu_customerID  VARCHAR(30) not NULL,
+ cu_storeID  VARCHAR(30) not NULL,
+ cu_barcode  INT(15,0) not NULL
+);
+
+CREATE TABLE IF NOT EXISTS Store(
+ st_storeID  VARCHAR(25) not NULL,
+ st_cityKey  INT(15,0) not NULL,
+ st_type   VARCHAR(25) not NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS Country(
+ c_countryKey  INT(15,0) not NULL,
+ c_name    VARCHAR(25) not NULL
+ c_shippingRate  DECIMAL(10,0) not NULL
+);
+
+CREATE TABLE IF NOT EXISTS City(
+ ci_cityKey   INT(15,0) not NULL,
+ ci_countryKey   INT(15,0) not NULL,
+ ci_name   VARCHAR(25) not NULL
+);
+
+CREATE TABLE IF NOT EXISTS StoreSupp(
+ stu_storeID VARCHAR(25) not NULL,
+ stu_suppID  VARCHAR(25) not NULL
+);
+
+CREATE TABLE IF NOT EXISTS ProductCustomer(
+ pc_custID      VARCHAR(30) not NULL,
+ pc_barcode     INT(15,0) not NULL
+);
+            */
            stmt = c.createStatement();
-           String sql = "CREATE TABLE warehouse " +
-                          "(w_warehousekey decimal(9,0) not null," +
-                          " w_name  char(100) not null, " + 
-                          " w_capacity decimal(6,0)  not null, " + 
-                          " w_suppkey decimal(9,0) not null," + 
-                          " w_nationkey decimal(2,0) not null)"; 
+           String sql = " CREATE TABLE IF NOT EXISTS Inventory(i_storeID VARCHAR(30) not NULL,i_barcode  INT(15,0) not NULL,i_stock  INT(15,0) not NULL);"; 
            stmt.executeUpdate(sql);
            stmt.close();
         } catch ( Exception e ) {
@@ -116,7 +175,7 @@ public class Barcode {
 
 
    
-    public void populateTable() {
+    private void populateTables() {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Populate table");
         int id = 1;
@@ -194,7 +253,7 @@ public class Barcode {
         System.out.println("++++++++++++++++++++++++++++++++++");
     }
 
-    public void dropTable() {
+    private void dropTables() {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Drop table");
       
@@ -215,7 +274,7 @@ public class Barcode {
         System.out.println("++++++++++++++++++++++++++++++++++");
     }
 
-    public void Q1() {
+    private void Q1() {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Q1");
 
@@ -248,7 +307,7 @@ public class Barcode {
         System.out.println("++++++++++++++++++++++++++++++++++");
     }
 
-    public void Q2() {
+    private void Q2() {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Q2");
 
@@ -267,7 +326,7 @@ public class Barcode {
         System.out.println("++++++++++++++++++++++++++++++++++");
     }
 
-    public void Q3() {
+    private void Q3() {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Q3");
 
@@ -292,7 +351,7 @@ public class Barcode {
         System.out.println("++++++++++++++++++++++++++++++++++");
     }
 
-    public void Q4() {
+    private void Q4() {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Q4");
 
@@ -318,7 +377,7 @@ public class Barcode {
         System.out.println("++++++++++++++++++++++++++++++++++");
     }
 
-    public void Q5() {
+    private void Q5() {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Q5");
 
@@ -344,9 +403,21 @@ public class Barcode {
     }
 
 
+    public static void main(String args[]) {
+        BarcodeDatabase db = new BarcodeDatabase();
+        //createNewDatabase("C:/Users/plugu/Documents/Main/CSE111/Project/","inventory.db");
+        
+        db.openConnection("data/inventory.sqlite");
+        db.dropTables();
+        db.createTables();
+        db.populateTables();
+
+        userInterface();
+
+        db.closeConnection();
+    }
+
 
 	public @interface java {
 	}
-
- 
 }
