@@ -162,7 +162,11 @@ CREATE TABLE IF NOT EXISTS ProductCustomer(
 );
             */
            stmt = c.createStatement();
-           String sql = " CREATE TABLE IF NOT EXISTS Inventory(i_storeID VARCHAR(30) not NULL,i_barcode  INT(15,0) not NULL,i_stock  INT(15,0) not NULL);"; 
+           //String sql = " CREATE TABLE IF NOT EXISTS Inventory(i_storeID VARCHAR(30) not NULL,i_barcode  INT(15,0) not NULL,i_stock  INT(15,0) not NULL);"; 
+           String sql = "CREATE TABLE IF NOT EXISTS Inventory " +
+                          "(i_storeID VARCHAR(30) not NULL," +
+                          " i_barcode  INT(15,0) not NULL," + 
+                          "i_stock  INT(15,0) not NULL) "; 
            stmt.executeUpdate(sql);
            stmt.close();
         } catch ( Exception e ) {
@@ -408,9 +412,9 @@ CREATE TABLE IF NOT EXISTS ProductCustomer(
         //createNewDatabase("C:/Users/plugu/Documents/Main/CSE111/Project/","inventory.db");
         
         db.openConnection("data/inventory.sqlite");
-        db.dropTables();
+        //db.dropTables();
         db.createTables();
-        db.populateTables();
+        //db.populateTables();
 
         userInterface();
 
