@@ -87,19 +87,24 @@ def printTable3(_conn,_table):
 def main():
     database = r"inventory.sqlite"
     clerkMenu = {}
-    clerkMenu['1']="-Check Inventory" 
+    clerkMenu['1']="-Check Stock" 
     clerkMenu['2']="-Check Price"
-    clerkMenu['3']="-Add to Inventory"
-    clerkMenu['4']="-Remove From Inventory"
-    clerkMenu['5']="-Exit"
+    clerkMenu['3']="-Lookup Barcode"
+    clerkMenu['4']="-Add to Inventory"
+    clerkMenu['5']="-Remove From Inventory"
+    clerkMenu['6']="-View Store Inventory"
+    clerkMenu['7']="-Exit"
     managerMenu = {}
     managerMenu['1']="-Add Product" 
     managerMenu['2']="-Remove Product"
     managerMenu['3']="-Change Price"
     managerMenu['4']="-Lookup Barcode"
-    managerMenu['5']="-Exit"
+    managerMenu['5']="-Add to Inventory"
+    managerMenu['6']="-Remove From Inventory"
+    managerMenu['7']="-View Store Inventory"
+    managerMenu['8']="-Exit"
     menu = {}
-    menu['1']="-Manager." 
+    menu['1']="-Manager" 
     menu['2']="-Clerk"
     menu['3']="-Exit Application"
     # create a database connection
@@ -111,42 +116,55 @@ def main():
             #options.sort()
             for entry in options: 
                 print(entry, menu[entry])
-            selection=input("Select:") 
-            if selection =='1': 
+            selection=input("Enter Selection:") 
+            if selection =='2': 
                 while True: 
-                    options=managerMenu.keys()
-                    #options.sort()
-                    for entry in options: 
-                        print(entry, managerMenu[entry])
-                    selection=input("Select:") 
-                    if selection =='1': 
-                        print ("Add") 
-                    elif selection == '2': 
-                        print ("Remove")
-                    elif selection == '3':
-                        print ("Change") 
-                    elif selection == '4': 
-                        print("Lookup")
-                    elif selection == '5': 
-                        break
-                    else: 
-                        print("Unknown Option Selected!") 
-            elif selection == '2': 
-                while True: 
+                    print("Clerk Menu:")
                     options=clerkMenu.keys()
                     #options.sort()
                     for entry in options: 
                         print(entry, clerkMenu[entry])
-                    selection=input("Select:") 
+                    selection=input("Enter Selection:") 
                     if selection =='1': 
-                        print ("Add") 
+                        print ("Check Stock") 
                     elif selection == '2': 
-                        print ("Remove")
+                        print ("Check Price")
                     elif selection == '3':
-                        print ("Change") 
+                        print ("Lookup Barcode") 
                     elif selection == '4': 
-                        print("Lookup")
+                        print("Add to invenetory")
                     elif selection == '5': 
+                        print("Remove to invenetory")
+                    elif selection == '6': 
+                        print("View Store Inventory")
+                    elif selection == '7': 
+                        break
+                    
+                    else: 
+                        print("Unknown Option Selected!") 
+            elif selection == '1': 
+                while True: 
+                    print("Manager Menu:")
+                    options=managerMenu.keys()
+                    #options.sort()
+                    for entry in options: 
+                        print(entry, managerMenu[entry])
+                    selection=input("Enter Selection:") 
+                    if selection =='1': 
+                        print ("Add Product") 
+                    elif selection == '2': 
+                        print ("Remove Product")
+                    elif selection == '3':
+                        print ("Change Price")
+                    elif selection == '4':
+                        print ("Add to invenetory") 
+                    elif selection == '5': 
+                        print("Remove to invenetory") 
+                    elif selection == '6': 
+                        print("Lookup Barcode")
+                    elif selection == '7': 
+                        print("Inventory")
+                    elif selection == '8': 
                         break
                     else: 
                         print("Unknown Option Selected!")
