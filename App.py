@@ -35,6 +35,18 @@ def deleteProduct(_conn, _p_barcode):
     except Error as e:
         print(e)       
 
+def addProduct(_conn, _p_barcode, supplier, typ, price):
+    try:   
+    
+        sql = """INSERT INTO Product Values ({},{},{},{});""".format(_p_barcode, supplier, typ, price)
+
+        cur = _conn.cursor()
+        
+        cur.execute(sql)
+        
+       
+    except Error as e:
+        print(e)    
 
 
 
@@ -106,9 +118,9 @@ def main():
     managerMenu['9']="- Store Supplier List"
     managerMenu['10']="- Exit"
     menu = {}
-    menu['1']="-Manager" 
-    menu['2']="-Clerk"
-    menu['3']="-Exit Application"
+    menu['1']="- Manager" 
+    menu['2']="- Clerk"
+    menu['3']="- Exit Application"
     # create a database connection
     conn = openConnection(database)
     with conn:
@@ -153,7 +165,12 @@ def main():
                         print(entry, managerMenu[entry])
                     selection=input("Enter Selection:") 
                     if selection =='1': 
-                        print ("Add Product") 
+                        print ("Add Product:\n")
+                        barcode=input("Enter barcode:")
+                        supplier=input("Enter supplierID:")
+                        typ=input("Enter product type:")
+                        price=input("Enter price:")
+                        addProduct(conn, barcode, supplier, typ, price)
                     elif selection == '2': 
                         print ("Remove Product")
                     elif selection == '3':
