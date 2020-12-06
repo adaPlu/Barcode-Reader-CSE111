@@ -87,22 +87,24 @@ def printTable3(_conn,_table):
 def main():
     database = r"inventory.sqlite"
     clerkMenu = {}
-    clerkMenu['1']="-Check Stock" 
-    clerkMenu['2']="-Check Price"
-    clerkMenu['3']="-Lookup Barcode"
-    clerkMenu['4']="-Add to Inventory"
-    clerkMenu['5']="-Remove From Inventory"
-    clerkMenu['6']="-View Store Inventory"
-    clerkMenu['7']="-Exit"
+    clerkMenu['1']="- Check Stock" 
+    clerkMenu['2']="- Check Price"
+    clerkMenu['3']="- Lookup Barcode"
+    clerkMenu['4']="- Add to Inventory"
+    clerkMenu['5']="- Remove From Inventory"
+    clerkMenu['6']="- View Store Inventory"
+    clerkMenu['7']="- Exit"
     managerMenu = {}
-    managerMenu['1']="-Add Product" 
-    managerMenu['2']="-Remove Product"
-    managerMenu['3']="-Change Price"
-    managerMenu['4']="-Lookup Barcode"
-    managerMenu['5']="-Add to Inventory"
-    managerMenu['6']="-Remove From Inventory"
-    managerMenu['7']="-View Store Inventory"
-    managerMenu['8']="-Exit"
+    managerMenu['1']="- Add Product" 
+    managerMenu['2']="- Remove Product"
+    managerMenu['3']="- Change Product Price"
+    managerMenu['4']="- Lookup Barcode"
+    managerMenu['5']=" -Add to Inventory"
+    managerMenu['6']="- Remove From Inventory"
+    managerMenu['7']="- View Store Inventory"
+    managerMenu['8']="- View Product List"
+    managerMenu['9']="- Store Supplier List"
+    managerMenu['10']="- Exit"
     menu = {}
     menu['1']="-Manager" 
     menu['2']="-Clerk"
@@ -155,7 +157,7 @@ def main():
                     elif selection == '2': 
                         print ("Remove Product")
                     elif selection == '3':
-                        print ("Change Price")
+                        print ("Change Product Price")
                     elif selection == '4':
                         print ("Add to invenetory") 
                     elif selection == '5': 
@@ -163,12 +165,17 @@ def main():
                     elif selection == '6': 
                         print("Lookup Barcode")
                     elif selection == '7': 
-                        print("Inventory")
+                        print("Store Inventory")
                     elif selection == '8': 
+                        print("Store Product List")
+                    elif selection == '9': 
+                        print("Store Supplier List")
+                    elif selection == '10': 
                         break
                     else: 
                         print("Unknown Option Selected!")
             elif selection == '3': 
+                print("Closing Application...")
                 break
             else: 
                 print("Unknown Option Selected!")
