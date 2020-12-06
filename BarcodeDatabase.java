@@ -6,28 +6,48 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BarcodeDatabase {
     private Connection c = null;
     private String dbName;
     private boolean isConnected = false;
     private Statement stmt = null;
-    private Statement stmt2 = null;
-    private Statement stmt3 = null;
 
     public static void userInterface(){
         //user type selection
-        //manager menu
-            //add product
-            //change price
-            //lookup item
-
-
-        //clerk menu
-            //Check inventory
-            //Check price
-            //add to inventory
-            //remove from inventory
+        int inter = 0;
+        int uid = 0;
+        int input = 0;
+        while(inter == 0){
+            //user type selection
+            Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+            System.out.println("Barcode Inventory System v1.0");
+            System.out.println("Enter user type:");
+            System.out.println("1 - Manager");
+            System.out.println("2 - Clerk");
+            uid = myObj.nextInt(); 
+            //get user input
+            //cehck manager or clerk
+            if(uid == 1){
+                //manager menu
+                //add product
+                //change price
+                //lookup item
+            }
+            else if(uid == 2){
+                //clerk menu
+                //Check inventory
+                //Check price
+                //add to inventory
+                //remove from inventory    
+                if (input == 0){
+                    inter = 1;
+                    System.out.println("Closing Application...");
+                }
+            }
+        }
+        
             
     }
     public static void createNewDatabase(String location, String fileName) {
@@ -102,73 +122,78 @@ public class BarcodeDatabase {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Create table");
         try {
-            /*
- CREATE TABLE IF NOT EXISTS Inventory(i_storeID    VARCHAR(30) not NULL,i_barcode  INT(15,0) not NULL,i_stock  INT(15,0) not NULL);
-
-CREATE TABLE IF NOT EXISTS Producer(
- pr_name VARCHAR(25) not NULL,
- pr_type VARCHAR(25) not NULL,
- pr_cityKey  INT(15,0) not NULL,   
- pr_shippingRateKey  INT(15,0) not NULL
-);
-
-
-CREATE TABLE IF NOT EXISTS Supplier(
- s_supplierID  VARCHAR(25) not NULL,
- s_cityKey      INT(15,0) not NULL,
- s_shippingRateKey  INT(15,0) not NULL
-);
-
-CREATE TABLE IF NOT EXISTS Product(
- p_barcode  INT(15,0) not NULL,
- p_supplierID  VARCHAR(25) not NULL,
- p_type   VARCHAR(25) not NULL,
- p_price    DECIMAL(15,0) not NULL
-);
-
-CREATE TABLE IF NOT EXISTS Customer(
- cu_customerID  VARCHAR(30) not NULL,
- cu_storeID  VARCHAR(30) not NULL,
- cu_barcode  INT(15,0) not NULL
-);
-
-CREATE TABLE IF NOT EXISTS Store(
- st_storeID  VARCHAR(25) not NULL,
- st_cityKey  INT(15,0) not NULL,
- st_type   VARCHAR(25) not NULL
-);
-
-
-CREATE TABLE IF NOT EXISTS Country(
- c_countryKey  INT(15,0) not NULL,
- c_name    VARCHAR(25) not NULL
- c_shippingRate  DECIMAL(10,0) not NULL
-);
-
-CREATE TABLE IF NOT EXISTS City(
- ci_cityKey   INT(15,0) not NULL,
- ci_countryKey   INT(15,0) not NULL,
- ci_name   VARCHAR(25) not NULL
-);
-
-CREATE TABLE IF NOT EXISTS StoreSupp(
- stu_storeID VARCHAR(25) not NULL,
- stu_suppID  VARCHAR(25) not NULL
-);
-
-CREATE TABLE IF NOT EXISTS ProductCustomer(
- pc_custID      VARCHAR(30) not NULL,
- pc_barcode     INT(15,0) not NULL
-);
-            */
            stmt = c.createStatement();
-           //String sql = " CREATE TABLE IF NOT EXISTS Inventory(i_storeID VARCHAR(30) not NULL,i_barcode  INT(15,0) not NULL,i_stock  INT(15,0) not NULL);"; 
            String sql = "CREATE TABLE IF NOT EXISTS Inventory " +
                           "(i_storeID VARCHAR(30) not NULL," +
                           " i_barcode  INT(15,0) not NULL," + 
                           "i_stock  INT(15,0) not NULL) "; 
            stmt.executeUpdate(sql);
+           sql =  "CREATE TABLE IF NOT EXISTS Producer(" +
+                          "pr_name VARCHAR(25) not NULL," +
+                          "pr_type VARCHAR(25) not NULL," + 
+                          "pr_cityKey  INT(15,0) not NULL,"+
+                          "pr_shippingRateKey  INT(15,0) not NULL)"; 
+
+
+           stmt.executeUpdate(sql);
+           sql =  "CREATE TABLE IF NOT EXISTS Supplier(" +
+                          "s_supplierID  VARCHAR(25) not NULL," +
+                          " s_cityKey      INT(15,0) not NULL," + 
+                          "s_shippingRateKey  INT(15,0) not NULL)"; 
+                         
+
+           stmt.executeUpdate(sql);
+           sql =  " CREATE TABLE IF NOT EXISTS Product(" +
+                          "p_barcode  INT(15,0) not NULL," +
+                          "p_supplierID  VARCHAR(25) not NULL," + 
+                          "p_type   VARCHAR(25) not NULL,"+
+                          "p_price    DECIMAL(15,0) not NULL)"; 
+                        
+           stmt.executeUpdate(sql);
+           sql =  "CREATE TABLE IF NOT EXISTS Customer(" +
+                        "cu_customerID  VARCHAR(30) not NULL," +
+                        "cu_storeID  VARCHAR(30) not NULL," + 
+                        "cu_barcode  INT(15,0) not NULL)"; 
+                         
+
+           stmt.executeUpdate(sql);
+
+           sql =  "CREATE TABLE IF NOT EXISTS City(" +
+                        "ci_cityKey   INT(15,0) not NULL," +
+                        "ci_countryKey   INT(15,0) not NULL," + 
+                        "ci_name   VARCHAR(25) not NULL)"; 
+                         
+
+           stmt.executeUpdate(sql);
+           sql =  "CREATE TABLE IF NOT EXISTS Country(" +
+                        "c_countryKey  INT(15,0) not NULL," +
+                        "c_name    VARCHAR(25) not NULL," + 
+                        "c_shippingRate  DECIMAL(10,0) not NULL)"; 
+                         
+
+           stmt.executeUpdate(sql);
+           sql =  "CREATE TABLE IF NOT EXISTS City(" +
+           "ci_cityKey   INT(15,0) not NULL," +
+           "ci_countryKey   INT(15,0) not NULL," + 
+           "ci_name   VARCHAR(25) not NULL)"; 
+            
+
+            stmt.executeUpdate(sql);
+            sql =  "CREATE TABLE IF NOT EXISTS ProductCustomer(" +
+                    "pc_custID      VARCHAR(30) not NULL," +
+                    "pc_barcode     INT(15,0) not NULL)"; 
+                        
+
+            stmt.executeUpdate(sql);
+            sql =  "CREATE TABLE IF NOT EXISTS StoreSupp(" +
+                    "stu_storeID      VARCHAR(25) not NULL," +
+                    "stu_suppID    VARCHAR(25) not NULL)"; 
+                        
+
+            stmt.executeUpdate(sql);
+                
            stmt.close();
+           c.commit();
         } catch ( Exception e ) {
            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
            System.exit(0);
@@ -182,71 +207,55 @@ CREATE TABLE IF NOT EXISTS ProductCustomer(
     private void populateTables() {
         System.out.println("++++++++++++++++++++++++++++++++++");
         System.out.println("Populate table");
-        int id = 1;
-        int s_suppkey = 0;
-        String s_name = " ";
-        String n_name = " ";
-        int n_nationkey = 0;
-        int capacity = 0;
-        String sql = "";
+
+
+        
         try {
-            ArrayList<String> temp = new ArrayList<String>();
+           
             stmt = c.createStatement();
-            stmt2 = c.createStatement();
-            stmt3 = c.createStatement();
-            /*
-            The nations where these warehouses are located are
-            those that have the largest number of lineitems supplied by the supplier that are ordered by customers
-            from that nation. In case of equality, the nations are sorted in alphabetical order and the rst two
-            are selected.
-            */
-            ResultSet rs = stmt.executeQuery( "SELECT s_suppkey, s_name, n_name, n_nationkey, max FROM  (SELECT MAX(count) AS max, n_name as name2, s_suppkey as skey, n_nationkey as nkey FROM nation,(SELECT DISTINCT SUM(l_quantity) AS count, s_nationkey, s_suppkey FROM orders, supplier, lineitem, customer WHERE  o_custkey = c_custkey AND l_suppkey = s_suppkey AND o_orderkey = l_orderkey AND c_nationkey = s_nationkey  GROUP BY s_suppkey) WHERE n_nationkey = s_nationkey),supplier, nation  WHERE  n_name = name2 AND s_suppkey = skey AND s_nationkey = n_nationkey GROUP BY n_nationkey;");
-            ResultSet ps = stmt2.executeQuery( "SELECT MAX(sum) AS s FROM (SELECT SUM(p_size) AS sum FROM supplier, customer, nation, lineitem, part, orders WHERE c_custkey = o_custkey AND l_suppkey = s_suppkey AND l_partkey = p_partkey AND o_orderkey = l_orderkey AND c_nationkey = n_nationkey GROUP BY n_nationkey);");
-            ResultSet max = stmt3.executeQuery("SELECT MAX(count) AS max, n_name, s_suppkey n_nationkey FROM nation,(SELECT DISTINCT SUM(l_quantity) AS count, s_nationkey, s_suppkey FROM orders, supplier, lineitem, customer WHERE o_custkey = c_custkey AND l_suppkey = s_suppkey AND o_orderkey = l_orderkey AND c_nationkey = s_nationkey  GROUP BY s_suppkey) WHERE n_nationkey = s_nationkey;");
-           
-           
+        
+
+
+
+
+
+            String sql_ = "INSERT INTO Inventory Values ('Store#001',10000002,3);";
+            stmt.executeUpdate(sql_);
             
-            while (rs.next() ) {
-                s_suppkey = rs.getInt("s_suppkey");
-                s_name = rs.getString("s_name");
-                n_name = rs.getString("n_name");
-               n_nationkey = rs.getInt("n_nationkey");
-               /*
-               while(max.next()){
-                    capacity = max.getInt("max");
-                    n_name = max.getString("n_name");
-                    n_nationkey = max.getInt("n_nationkey");
-                    System.out.println(n_name + " " + n_nationkey + " " + capacity); 
-                
-                }
-                */
-                s_name = "'" + s_name + "___" + n_name +"'";
-                /*
-
-                In order to determine the capacity of a
-                warehouse, you have to compute the total size of the parts (p size) supplied by the supplier to the
-                customers in a nation. Then, the warehouse capacity is taken as the double of the maximum total part
-                size across all the nations. The two warehouses owned by a supplier have the same capacity.
-                */
-                //Compute total size of parts supplied by the supplier to the customers in a nation
-                
-                while (ps.next()){
-                    capacity = ps.getInt("s");
-                    System.out.println(capacity); 
-                }
-                sql = "INSERT INTO warehouse (w_warehousekey,w_name,w_capacity,w_suppkey,w_nationkey) " +
-                "VALUES ( "+ id++ +", "+s_name+", "+capacity+", "+s_suppkey+", "+n_nationkey+" );";
-                temp.add(sql);
-                sql = "INSERT INTO warehouse (w_warehousekey,w_name,w_capacity,w_suppkey,w_nationkey) " +
-                "VALUES ( "+ id++ +", "+s_name+", "+capacity+", "+s_suppkey+", "+n_nationkey+" );";
-                temp.add(sql);
-                //System.out.println("s_name: " + s_name +"  "+ s_suppkey);                
-            }
-
-            for(int i = 0; i < temp.size(); i++){
-                stmt.executeUpdate(temp.get(i));
-            }
-            rs.close();
+            sql_ = "INSERT INTO Inventory Values ('Store#001',10100001,7);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#001',11140001,65);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#001',10060001,11);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#001',10100801,12);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#001',10000901,18);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#001',11140201,1);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#002',10000001,5);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#002',10000002,1);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#003',10100001,7);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#003',10000001,23);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#003',11140001,65);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#004',10060001,11);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#004',10007002,1);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#004',10100801,12);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#005',10000901,18);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#005',11140201,1);";
+            stmt.executeUpdate(sql_);
+            sql_ = "INSERT INTO Inventory Values ('Store#005',10000001,35);";
+            stmt.executeUpdate(sql_);
             stmt.close();
             c.commit();
         } catch (SQLException  e ) {

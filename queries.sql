@@ -1,6 +1,6 @@
 --Deletes all Data in Tables
 --/*
-delete from Inventory;
+delete from  Inventory;
 delete from Producer;
 delete from Supplier;
 delete from Customer;

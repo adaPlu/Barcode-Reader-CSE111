@@ -85,49 +85,102 @@ def printTable3(_conn,_table):
         print(e)
 
 def main():
-    database = r"Backup.sqlite"
-
+    database = r"inventory.sqlite"
+    clerkMenu = {}
+    clerkMenu['1']="-Check Inventory" 
+    clerkMenu['2']="-Check Price"
+    clerkMenu['3']="-Add to Inventory"
+    clerkMenu['4']="-Remove From Inventory"
+    clerkMenu['5']="-Exit"
+    managerMenu = {}
+    managerMenu['1']="-Add Product" 
+    managerMenu['2']="-Remove Product"
+    managerMenu['3']="-Change Price"
+    managerMenu['4']="-Lookup Barcode"
+    managerMenu['5']="-Exit"
+    menu = {}
+    menu['1']="-Manager." 
+    menu['2']="-Clerk"
+    menu['3']="-Exit Application"
     # create a database connection
     conn = openConnection(database)
     with conn:
-      
-        print('Tables Available: \n City\n Country\n Customer\n Inventory\n Store\n Supplier\n Producer\n Product\n ProductCustomer\n StoreSupp\n' )
-        input = raw_input("Enter table to display: ")
+        print("Welcome to Inventory Manager v1.0")
+        while True: 
+            options=menu.keys()
+            #options.sort()
+            for entry in options: 
+                print(entry, menu[entry])
+            selection=input("Select:") 
+            if selection =='1': 
+                while True: 
+                    options=managerMenu.keys()
+                    #options.sort()
+                    for entry in options: 
+                        print(entry, managerMenu[entry])
+                    selection=input("Select:") 
+                    if selection =='1': 
+                        print ("Add") 
+                    elif selection == '2': 
+                        print ("Remove")
+                    elif selection == '3':
+                        print ("Change") 
+                    elif selection == '4': 
+                        print("Lookup")
+                    elif selection == '5': 
+                        break
+                    else: 
+                        print("Unknown Option Selected!") 
+            elif selection == '2': 
+                while True: 
+                    options=clerkMenu.keys()
+                    #options.sort()
+                    for entry in options: 
+                        print(entry, clerkMenu[entry])
+                    selection=input("Select:") 
+                    if selection =='1': 
+                        print ("Add") 
+                    elif selection == '2': 
+                        print ("Remove")
+                    elif selection == '3':
+                        print ("Change") 
+                    elif selection == '4': 
+                        print("Lookup")
+                    elif selection == '5': 
+                        break
+                    else: 
+                        print("Unknown Option Selected!")
+            elif selection == '3': 
+                break
+            else: 
+                print("Unknown Option Selected!")
 
-        # printTable2(conn,input)
-        #printTable3(conn,input)
-        # print "you entered ", input
-        if input == 'City':
-            printTable(conn,input)
-        elif input == 'Country':
-            printTable(conn,input)
-        elif input == 'Customer':
-            printTable(conn,input)    
-        elif input == 'Inventory':
-            printTable(conn,input) 
-        elif input == 'Store':
-            printTable(conn,input) 
-        elif input == 'Supplier':
-            printTable(conn,input) 
-        
-        elif input == 'Producer':
-            printTable2(conn,input)
-        elif input == 'Product':
-            printTable2(conn,input)   
-
-        elif input == 'ProductCustomer':
-            printTable3(conn,input)
-        elif input == 'StoreSupp':
-            printTable3(conn,input)     
-
-        # print('Should we delete to continue')
-        input2 = raw_input("Enter the barcode of the product to delete: ")
-        # print "you entered ", var
-        # if input2 == '10000002':
-        deleteProduct(conn,input2)   
-      
     closeConnection(conn, database)
 
 
 if __name__ == '__main__':
     main()
+
+#Lookup Item
+#Display a stores Inventory
+#Display Price
+#Lookup City of Store
+#Add Product
+#Delete Product
+#Update Product Price
+#Add Stock to Inventory
+#Remove Stock From Inventory
+#Remove scanned item from inventory
+#To display scaned barcodes we can read from a file which contains the barcodes to look up
+#Display product type and price base on barcode '10100801' entered
+#Displays the supplier with the least expensive product and the supplier with the most expensive product
+#Display product type that needs to be restock. A product needs to be restock if there are less than 15 in stock. 
+#Display the avg price by product type
+#Display the country and the number of suppliers that it has
+#Display city name and the number of suppliers it has
+#Display countries with the max and min shipping rate
+#Display the different product type from Producer
+#Display supplier and the number of product type that it supplies
+
+
+
