@@ -309,17 +309,22 @@ def main():
                     print(entry, clerkMenu[entry])
                 selection=input("Enter Selection:") 
                 if selection =='1': 
-                    print ("Check Stock") 
+                    print ("Check Stock:") 
                 elif selection == '2': 
-                    print ("Check Price")
+                    print ("Check Price:")
                 elif selection == '3':
-                    print ("Lookup Barcode") 
+                    print ("Lookup Barcode:")
+                    barcode=input("Enter barcode:")
+                    conn = openConnection(database)
+                    with conn:
+                        barCodeLookUp(conn,barcode)
+                    closeConnection(conn, database) 
                 elif selection == '4': 
-                    print("Add to inventory")
+                    print("Add to inventory:")
                 elif selection == '5': 
-                    print("Remove to inventory")
+                    print("Remove to inventory:")
                 elif selection == '6': 
-                    print("View Store Inventory")
+                    print("View Store Inventory:")
                 elif selection == '7': 
                     print("Returning to Main Menu...")
                     break
@@ -343,14 +348,14 @@ def main():
                         addProduct(conn, barcode, supplier, typ, price)
                     closeConnection(conn, database)
                 elif selection == '2': 
-                    print ("Remove Product")
+                    print ("Remove Product:")
                     conn = openConnection(database)
                     with conn:
                         barcode=input("Enter barcode of Product to Remove:")
                         deleteProduct(conn, barcode)
                     closeConnection(conn, database)
                 elif selection == '3':
-                    print ("Change Product Price")
+                    print ("Change Product Price:")
                     conn = openConnection(database)
                     with conn:
                         barcode=input("Enter barcode of Product:")
@@ -358,7 +363,7 @@ def main():
                         updatePrice(conn, barcode, price)
                     closeConnection(conn, database)
                 elif selection == '5':
-                    print ("Add to inventory") 
+                    print ("Add to inventory:") 
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
@@ -367,7 +372,7 @@ def main():
                         addToInventory(conn,storeID, barcode, stock)
                     closeConnection(conn, database)
                 elif selection == '6': 
-                    print("Remove from inventory") 
+                    print("Remove from inventory:") 
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
@@ -387,7 +392,7 @@ def main():
 
                     closeConnection(conn, database)
                 elif selection == '4': 
-                    print("Lookup Barcode")
+                    print("Lookup Barcode:")
                     barcode=input("Enter barcode:")
                     conn = openConnection(database)
                     with conn:
