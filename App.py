@@ -29,7 +29,7 @@ def deleteProduct(_conn, _p_barcode):
       
        
         cur = _conn.cursor()
-        print ("Removing {}".format(_p_barcode))
+        
         cur.execute(sql)
         
        
@@ -52,25 +52,29 @@ def addProduct(_conn, _p_barcode, supplier, typ, price):
 
 
 
-def printTable(_conn,_table):
+def checkStock(_conn):
     try:   
 
-        sql = """Select * from {}; """.format(_table)
+        sql = """SELECT p_barcode,p_type,p_price,i_storeID,i_stock
+FROM Product, Inventory
+WHERE p_barcode = i_barcode
+    AND i_stock <= 15
+ORDER BY i_storeID;"""
         cur = _conn.cursor()
         cur.execute(sql)
     
         rows = cur.fetchall()
         for row in rows: 
-            l = '{:<10} {:<10} {:>10}  '.format(row[0], row[1], row[2])
+            l = '{:<10} {:<10} {:>10} {:<10} {:>10} '.format(row[0], row[1], row[2],row[3], row[4])
             print(l)
 
     except Error as e:
         print(e)
 
-def printTable2(_conn,_table):
+def barCodeLookUp(_conn,_p_barcode):
     try:   
 
-        sql = """Select * from {}; """.format(_table)
+        sql = """Select * from Product where p_barcode = {}; """.format(_p_barcode)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -82,23 +86,58 @@ def printTable2(_conn,_table):
     except Error as e:
         print(e)
 
-def printTable3(_conn,_table):
+def checkPrice(_conn,_p_type):
     try:   
 
-        sql = """Select * from {}; """.format(_table)
+        sql = """ SELECT * 
+FROM Product
+WHERE p_type = '{}';""".format(_p_type)
         cur = _conn.cursor()
         cur.execute(sql)
     
         rows = cur.fetchall()
         for row in rows: 
-            l = '{:<10} {:<10} '.format(row[0], row[1])
+            l = '{:<10} {:<10} {:>10} {:>10} '.format(row[0], row[1], row[2], row[3])
             print(l)
 
     except Error as e:
         print(e)
 
+def printInventory(_conn):
+    try:   
+
+        sql = """SELECT i_storeID, i_stock, p_type, p_price
+FROM Inventory,Product
+WHERE i_barcode = p_barcode;"""
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        for row in rows: 
+            l = '{:<10} {:<10} {:<10} {:<10} '.format(row[0], row[1], row[2], row[3])
+            print(l)
+
+    except Error as e:
+        print(e)
+
+def addInventory(_conn,_i_storeID,_i_barcode,_i_stock):
+    try:   
+
+        sql = """INSERT INTO Inventory VALUES('{}', {}, {});""".format(_i_storeID,_i_barcode,_i_stock)
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        for row in rows: 
+            l = '{:<10} {:<10} {:<10} {:<10} '.format(row[0], row[1], row[2], row[3])
+            print(l)
+
+    except Error as e:
+        print(e)
+
+
 def main():
-    database = r"inventory.sqlite"
+    database = r"Backup.sqlite"
     clerkMenu = {}
     clerkMenu['1']="- Check Stock" 
     clerkMenu['2']="- Check Price"
@@ -122,88 +161,98 @@ def main():
     menu['1']="- Manager" 
     menu['2']="- Clerk"
     menu['3']="- Exit Application"
-    
-    print("Welcome to Inventory Manager v1.0")
-    while True: 
-        options=menu.keys()
-        #options.sort()
-        for entry in options: 
-            print(entry, menu[entry])
-        selection=input("Enter Selection:") 
-        if selection =='2': 
-            while True: 
-                print("Clerk Menu:")
-                options=clerkMenu.keys()
-                #options.sort()
-                for entry in options: 
-                    print(entry, clerkMenu[entry])
-                selection=input("Enter Selection:") 
-                if selection =='1': 
-                    print ("Check Stock") 
-                elif selection == '2': 
-                    print ("Check Price")
-                elif selection == '3':
-                    print ("Lookup Barcode") 
-                elif selection == '4': 
-                    print("Add to invenetory")
-                elif selection == '5': 
-                    print("Remove to invenetory")
-                elif selection == '6': 
-                    print("View Store Inventory")
-                elif selection == '7': 
-                    break
-                
-                else: 
-                    print("Unknown Option Selected!") 
-        elif selection == '1': 
-            while True: 
-                print("Manager Menu:")
-                options=managerMenu.keys()
-                #options.sort()
-                for entry in options: 
-                    print(entry, managerMenu[entry])
-                selection=input("Enter Selection:") 
-                if selection =='1': 
-                    print ("Add Product:\n")
-                    conn = openConnection(database)
-                    with conn: 
+    # create a database connection
+    conn = openConnection(database)
+    with conn:
+        print("Welcome to Inventory Manager v1.0")
+        while True: 
+            options=menu.keys()
+            #options.sort()
+            for entry in options: 
+                print(entry, menu[entry])
+            selection=input("Enter Selection:") 
+            if selection =='2': 
+                while True: 
+                    print("Clerk Menu:")
+                    options=clerkMenu.keys()
+                    #options.sort()
+                    for entry in options: 
+                        print(entry, clerkMenu[entry])
+                    selection=input("Enter Selection:") 
+                    if selection =='1': 
+                        print ("Check Stock") 
+                        checkStock(conn)
+                    elif selection == '2': 
+                        print ("Check Price")
+                        # typ = input("Product: ")
+                        # checkPrice(conn,typ)
+                        
+                    elif selection == '3':
+                        print ("Lookup Barcode")
+                        barcode=input("Enter barcode:")
+                        barCodeLookUp(conn,barcode)
+
+                    elif selection == '4': 
+                        print("Add to inventory")
+                        # i_storeID=input("Enter storeID:")
+                        # i_barcode=input("Enter barcode:")
+                        # i_stock=input("Enter number in stock:")
+                        
+                        addInventory(conn, i_storeID, i_barcode, i_stock)
+                        
+                    elif selection == '5': 
+                        print("Remove to inventory")
+                        
+                    elif selection == '6': 
+                        print("View Store Inventory")
+                        printInventory(conn)
+                    elif selection == '7': 
+                        break
+                    
+                    else: 
+                        print("Unknown Option Selected!") 
+            elif selection == '1': 
+                while True: 
+                    print("Manager Menu:")
+                    options=managerMenu.keys()
+                    #options.sort()
+                    for entry in options: 
+                        print(entry, managerMenu[entry])
+                    selection=input("Enter Selection:") 
+                    if selection =='1': 
+                        print ("Add Product:\n")
                         barcode=input("Enter barcode:")
                         supplier=input("Enter supplierID:")
                         typ=input("Enter product type:")
                         price=input("Enter price:")
                         addProduct(conn, barcode, supplier, typ, price)
-                    closeConnection(conn, database)
-                elif selection == '2': 
-                    print ("Remove Product")
-                    conn = openConnection(database)
-                    with conn:
-                        barcode=input("Enter barcode of Product to Remove:")
-                        deleteProduct(conn, barcode)
-                    closeConnection(conn, database)
-                elif selection == '3':
-                    print ("Change Product Price")
-                elif selection == '4':
-                    print ("Add to invenetory") 
-                elif selection == '5': 
-                    print("Remove to invenetory") 
-                elif selection == '6': 
-                    print("Lookup Barcode")
-                elif selection == '7': 
-                    print("Store Inventory")
-                elif selection == '8': 
-                    print("Store Product List")
-                elif selection == '9': 
-                    print("Store Supplier List")
-                elif selection == '10': 
-                    break
-                else: 
-                    print("Unknown Option Selected!")
-        elif selection == '3': 
-            print("Closing Application...")
-            break
-        else: 
-            print("Unknown Option Selected!")
+                    elif selection == '2': 
+                        print ("Remove Product")
+                    elif selection == '3':
+                        print ("Change Product Price")
+                    elif selection == '4':
+                        print ("Add to inventory") 
+                    elif selection == '5': 
+                        print("Remove to inventory") 
+                    elif selection == '6': 
+                        print("Lookup Barcode")
+                    elif selection == '7': 
+                        print("Store Inventory")
+                    elif selection == '8': 
+                        print("Store Product List")
+                    elif selection == '9': 
+                        print("Store Supplier List")
+                    elif selection == '10': 
+                        break
+                    else: 
+                        print("Unknown Option Selected!")
+            elif selection == '3': 
+                print("Closing Application...")
+                break
+            else: 
+                print("Unknown Option Selected!")
 
+    closeConnection(conn, database)
 
 
 if __name__ == '__main__':
@@ -229,6 +278,4 @@ if __name__ == '__main__':
 #Display countries with the max and min shipping rate
 #Display the different product type from Producer
 #Display supplier and the number of product type that it supplies
-
-
 
