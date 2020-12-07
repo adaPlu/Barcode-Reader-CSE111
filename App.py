@@ -5,6 +5,7 @@ import csv
 from sqlite3 import Error
 
 
+#Functions
 def openConnection(_dbFile):
     conn = None
     try:
@@ -22,12 +23,7 @@ def closeConnection(_conn, _dbFile):
 
 def checkStock(_conn):
     try:   
-
-        sql = """SELECT p_barcode,p_type,p_price,i_storeID,i_stock
-FROM Product, Inventory
-WHERE p_barcode = i_barcode
-    AND i_stock <= 15
-ORDER BY i_storeID;"""
+        sql = """SELECT p_barcode,p_type,p_price,i_storeID,i_stock FROM Product, Inventory WHERE p_barcode = i_barcode AND i_stock <= 15 ORDER BY i_storeID;"""
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -74,7 +70,7 @@ WHERE p_type = '{}';""".format(_p_type)
 def printInventory(_conn, storeID):
     try:   
 
-        sql = """SELECT i_storeID, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeId = '{}' AND i_barcode = p_barcode;""".format(storeID)
+        sql = """SELECT i_storeID, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -91,20 +87,56 @@ def printInventory(_conn, storeID):
 def saveInventory(_conn, storeID):
     try:   
 
-        sql = """SELECT i_storeID, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeId = '{}' AND i_barcode = p_barcode;""".format(storeID)
+        sql = """SELECT i_storeID, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
         rows = cur.fetchall()
-        with open('inventory.csv', mode='w') as inventory_file:
+        with open('Inventory_'+ storeID +'.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            for row in rows: 
-                inventory_writer.writerow('{:<10},{:<10},{:<10},{:<10} '.format(row[0], row[1], row[2], row[3]))
+            for row in rows:
+                inventory_writer.writerow(row)
                 
        
 
     except Error as e:
         print(e)
+
+def printProduct(_conn, storeID):
+    try:   
+
+        sql = """SELECT * FROM Product, Inventory WHERE i_storeID = '{}' AND p_barcode = i_barcode;""".format(storeID)
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        for row in rows: 
+            l = '{:<10} {:<10} {:<10} {:<10} '.format(row[0], row[1], row[2], row[3])
+            print(l)
+
+    except Error as e:
+        print(e)
+
+
+
+def saveProduct(_conn, storeID):
+    try:   
+
+        sql = """SELECT * FROM Product, Inventory WHERE i_storeID = '{}' AND p_barcode = i_barcode;""".format(storeID)
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        with open('Products_'+ storeID +'.csv', mode='w') as inventory_file:
+            inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            for row in rows:
+                inventory_writer.writerow(row)
+                
+       
+
+    except Error as e:
+        print(e)
+
 
 
 def deleteProduct(_conn, _p_barcode):
@@ -233,7 +265,11 @@ def printTable3(_conn,_table):
     except Error as e:
         print(e)
 
+
+
 def main():
+
+    #Variables
     database = r"inventory.sqlite"
     clerkMenu = {}
     clerkMenu['1']="- Check Stock" 
@@ -248,22 +284,20 @@ def main():
     managerMenu['2']="- Remove Product"
     managerMenu['3']="- Change Product Price"
     managerMenu['4']="- Lookup Barcode"
-    managerMenu['5']=" -Add to Inventory"
+    managerMenu['5']="- Add to Inventory"
     managerMenu['6']="- Remove From Inventory"
     managerMenu['7']="- View Store Inventory"
     managerMenu['8']="- View Product List"
-    managerMenu['9']="- Store Supplier List"
-    managerMenu['10']="- Exit"
+    managerMenu['9']="- Exit"
     menu = {}
     menu['1']="- Manager" 
     menu['2']="- Clerk"
     menu['3']="- Exit Application"
     
-    
+    #Main Loop
     print("Welcome to Inventory Manager v1.0")
     while True: 
         options=menu.keys()
-        #options.sort()
         for entry in options: 
             print(entry, menu[entry])
         selection=input("Enter Selection:") 
@@ -271,7 +305,6 @@ def main():
             while True: 
                 print("Clerk Menu:")
                 options=clerkMenu.keys()
-                #options.sort()
                 for entry in options: 
                     print(entry, clerkMenu[entry])
                 selection=input("Enter Selection:") 
@@ -296,7 +329,6 @@ def main():
             while True: 
                 print("Manager Menu:")
                 options=managerMenu.keys()
-                #options.sort()
                 for entry in options: 
                     print(entry, managerMenu[entry])
                 selection=input("Enter Selection:") 
@@ -380,12 +412,19 @@ def main():
                     closeConnection(conn, database)
                 
                 elif selection == '8': 
-                    print("Store Product List")
+                    print("Store Product List:")
                     storeID=input("Enter storeID to display product list: ")
+                    conn = openConnection(database)
+                    with conn:
+                        printProduct(conn, storeID)
+                        print("Save to file? y/n\n")
+                        selection=input("Enter Selection:") 
+
+                        if selection == 'y':
+                            saveProduct(conn, storeID)
+
+                    closeConnection(conn, database)
                 elif selection == '9': 
-                    print("Store Supplier List")
-                    storeID=input("Enter storeID to display supplier list: ")
-                elif selection == '10': 
                     print("Returning to Main Menu...")
                     break
                 else: 
