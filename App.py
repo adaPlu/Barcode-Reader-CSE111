@@ -296,11 +296,11 @@ def main():
     
     #Main Loop
     print("Welcome to Inventory Manager v1.0")
-    while True: 
+    while True:
         options=menu.keys()
         for entry in options: 
             print(entry, menu[entry])
-        selection=input("Enter Selection:") 
+        selection=input("Enter User Type:") 
         if selection =='2': 
             while True: 
                 print("Clerk Menu:")
@@ -378,8 +378,6 @@ def main():
                         cur.execute(sql)
     
                         rows = cur.fetchall()
-                        #for row in rows:
-                         #   print(rows[0][0])
                         stock = rows[0][0] - int(sold)
                         print(stock)
                         if stock == 0:
@@ -390,12 +388,11 @@ def main():
                     closeConnection(conn, database)
                 elif selection == '4': 
                     print("Lookup Barcode")
-                    barcode=input("Enter barcode to look up:")
+                    barcode=input("Enter barcode:")
                     conn = openConnection(database)
                     with conn:
-                        #getprice
-                        #getstock
-                        print()
+                        barCodeLookUp(conn,barcode)
+
                     closeConnection(conn, database)
                 elif selection == '7': 
                     print("Store Inventory:")
