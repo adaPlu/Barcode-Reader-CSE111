@@ -1,6 +1,7 @@
 # Carlos Salas 
 # Ada Pluguez
 import sqlite3
+import csv
 from sqlite3 import Error
 
 
@@ -19,6 +20,91 @@ def closeConnection(_conn, _dbFile):
         print(e)
 
 
+def checkStock(_conn):
+    try:   
+
+        sql = """SELECT p_barcode,p_type,p_price,i_storeID,i_stock
+FROM Product, Inventory
+WHERE p_barcode = i_barcode
+    AND i_stock <= 15
+ORDER BY i_storeID;"""
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        for row in rows: 
+            l = '{:<10} {:<10} {:>10} {:<10} {:>10} '.format(row[0], row[1], row[2],row[3], row[4])
+            print(l)
+
+    except Error as e:
+        print(e)
+
+def barCodeLookUp(_conn,_p_barcode):
+    try:   
+
+        sql = """Select * from Product where p_barcode = {}; """.format(_p_barcode)
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        for row in rows: 
+            l = '{:<10} {:<10} {:>10} {:>10} '.format(row[0], row[1], row[2], row[3])
+            print(l)
+
+    except Error as e:
+        print(e)
+
+def checkPrice(_conn,_p_type):
+    try:   
+
+        sql = """ SELECT * 
+FROM Product
+WHERE p_type = '{}';""".format(_p_type)
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        for row in rows: 
+            l = '{:<10} {:<10} {:>10} {:>10} '.format(row[0], row[1], row[2], row[3])
+            print(l)
+
+    except Error as e:
+        print(e)
+
+def printInventory(_conn, storeID):
+    try:   
+
+        sql = """SELECT i_storeID, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeId = '{}' AND i_barcode = p_barcode;""".format(storeID)
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        for row in rows: 
+            l = '{:<10} {:<10} {:<10} {:<10} '.format(row[0], row[1], row[2], row[3])
+            print(l)
+
+    except Error as e:
+        print(e)
+
+
+
+def saveInventory(_conn, storeID):
+    try:   
+
+        sql = """SELECT i_storeID, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeId = '{}' AND i_barcode = p_barcode;""".format(storeID)
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        with open('inventory.csv', mode='w') as inventory_file:
+            inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            for row in rows: 
+                inventory_writer.writerow('{:<10},{:<10},{:<10},{:<10} '.format(row[0], row[1], row[2], row[3]))
+                
+       
+
+    except Error as e:
+        print(e)
 
 
 def deleteProduct(_conn, _p_barcode):
@@ -256,7 +342,6 @@ def main():
                         barcode=input("Enter barcode of Product to Remove:")
                         sold=input("Enter amount sold:")
                         sql = """Select i_stock from Inventory WHERE i_storeID = {} AND i_barcode = {}; """.format(storeID, barcode)
-                        #conn.execute("SELECT s_name, SUM(w_capacity), ps_availqty FROM supplier, warehouse, partsupp WHERE s_suppkey  = w_suppkey AND ps_suppkey = s_suppkey AND s_name = ?",[suppname])
                         cur = conn.cursor()
                         cur.execute(sql)
     
@@ -274,18 +359,32 @@ def main():
                 elif selection == '4': 
                     print("Lookup Barcode")
                     barcode=input("Enter barcode to look up:")
-                    #getprice
-                    #getstock
-
+                    conn = openConnection(database)
+                    with conn:
+                        #getprice
+                        #getstock
+                        print()
+                    closeConnection(conn, database)
                 elif selection == '7': 
-                    print("Store Inventory")
-                    storeID=input("Enter storeID to display inventory:")
+                    print("Store Inventory:")
+                    storeID=input("Enter storeID to display inventory: ")
+                    conn = openConnection(database)
+                    with conn:
+                        printInventory(conn, storeID)
+                        print("Save to file? y/n\n")
+                        selection=input("Enter Selection:") 
+
+                        if selection == 'y':
+                            saveInventory(conn, storeID)
+
+                    closeConnection(conn, database)
+                
                 elif selection == '8': 
                     print("Store Product List")
-                    storeID=input("Enter storeID to display product list:")
+                    storeID=input("Enter storeID to display product list: ")
                 elif selection == '9': 
                     print("Store Supplier List")
-                    storeID=input("Enter storeID to display supplier list:")
+                    storeID=input("Enter storeID to display supplier list: ")
                 elif selection == '10': 
                     print("Returning to Main Menu...")
                     break
