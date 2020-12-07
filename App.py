@@ -151,8 +151,8 @@ def main():
                 elif selection == '6': 
                     print("View Store Inventory")
                 elif selection == '7': 
+                    print("Returning to Main Menu...")
                     break
-                
                 else: 
                     print("Unknown Option Selected!") 
         elif selection == '1': 
@@ -184,22 +184,45 @@ def main():
                     print ("Change Product Price")
                     conn = openConnection(database)
                     with conn:
-                        price=input("Enter barcode of Product to Remove:")
+                        barcode=input("Enter barcode of Product:")
+                        price = input("Enter new price of Product:")
                         #updatePrice(conn, barcode)
                     closeConnection(conn, database)
                 elif selection == '4':
                     print ("Add to inventory") 
+                    conn = openConnection(database)
+                    with conn:
+                        storeID=input("Enter storeID of Inventory:")
+                        barcode=input("Enter barcode of Product to Add:")
+                        stock=input("Enter amount in stock:")
+                        #addToInventory(conn,storeID, barcode, stock)
+                    closeConnection(conn, database)
                 elif selection == '5': 
-                    print("Remove to inventory") 
+                    print("Remove from inventory") 
+                    conn = openConnection(database)
+                    with conn:
+                        storeID=input("Enter storeID of Inventory:")
+                        barcode=input("Enter barcode of Product to Remove:")
+                        stock=input("Enter amount sold:")
+                        #removeFromInventory(conn,storeID, barcode, stock)
+                    closeConnection(conn, database)
                 elif selection == '6': 
                     print("Lookup Barcode")
+                    barcode=input("Enter barcode to look up:")
+                    #getprice
+                    #getstock
+
                 elif selection == '7': 
                     print("Store Inventory")
+                    storeID=input("Enter storeID to display inventory:")
                 elif selection == '8': 
                     print("Store Product List")
+                    storeID=input("Enter storeID to display product list:")
                 elif selection == '9': 
                     print("Store Supplier List")
+                    storeID=input("Enter storeID to display supplier list:")
                 elif selection == '10': 
+                    print("Returning to Main Menu...")
                     break
                 else: 
                     print("Unknown Option Selected!")
