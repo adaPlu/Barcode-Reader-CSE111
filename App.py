@@ -145,9 +145,9 @@ def main():
                 elif selection == '3':
                     print ("Lookup Barcode") 
                 elif selection == '4': 
-                    print("Add to invenetory")
+                    print("Add to inventory")
                 elif selection == '5': 
-                    print("Remove to invenetory")
+                    print("Remove to inventory")
                 elif selection == '6': 
                     print("View Store Inventory")
                 elif selection == '7': 
@@ -182,10 +182,15 @@ def main():
                     closeConnection(conn, database)
                 elif selection == '3':
                     print ("Change Product Price")
+                    conn = openConnection(database)
+                    with conn:
+                        price=input("Enter barcode of Product to Remove:")
+                        #updatePrice(conn, barcode)
+                    closeConnection(conn, database)
                 elif selection == '4':
-                    print ("Add to invenetory") 
+                    print ("Add to inventory") 
                 elif selection == '5': 
-                    print("Remove to invenetory") 
+                    print("Remove to inventory") 
                 elif selection == '6': 
                     print("Lookup Barcode")
                 elif selection == '7': 
