@@ -49,8 +49,58 @@ def addProduct(_conn, _p_barcode, supplier, typ, price):
     except Error as e:
         print(e)    
 
+def addSupplier(_conn, s_supplierID, s_cityKey, s_countryKey):
+    try:   
+    
+        sql = """INSERT INTO Supplier Values ({},{},{});""".format(s_supplierID, s_cityKey, s_countryKey)
 
+        cur = _conn.cursor()
+        
+        cur.execute(sql)
+        
+       
+    except Error as e:
+        print(e)    
 
+def updatePrice(_conn, barcode, price):
+    try:   
+    
+        sql = """UPDATE Product SET p_price ={} WHERE p_barcode = {};""".format(price, barcode)
+
+        cur = _conn.cursor()
+        
+        cur.execute(sql)
+        
+       
+    except Error as e:
+        print(e)
+
+def addToInventory(_conn,storeID, barcode, stock):
+    try:   
+        sql = """INSERT INTO Inventory Values ({},{},{});""".format(storeID, barcode, stock)
+        cur = _conn.cursor()  
+        cur.execute(sql)
+        
+    except Error as e:
+        print(e)
+
+def subtractFromInventory(_conn, storeID, barcode, stock):
+    try:   
+        sql = """UPDATE Inventory SET i_stock = {} WHERE i_barcode = {} AND i_storeID = {};""".format(stock, barcode, storeID)
+        cur = _conn.cursor()
+        cur.execute(sql)
+       
+    except Error as e:
+        print(e)
+
+def removeFromInventory(_conn, storeID, barcode):
+    try:   
+        sql = """DELETE FROM Inventory WHERE i_barcode = {} AND i_storeID = {};""".format(barcode, storeID)
+        cur = _conn.cursor()
+        cur.execute(sql)
+       
+    except Error as e:
+        print(e)
 
 def printTable(_conn,_table):
     try:   
@@ -123,6 +173,7 @@ def main():
     menu['2']="- Clerk"
     menu['3']="- Exit Application"
     
+    
     print("Welcome to Inventory Manager v1.0")
     while True: 
         options=menu.keys()
@@ -186,27 +237,41 @@ def main():
                     with conn:
                         barcode=input("Enter barcode of Product:")
                         price = input("Enter new price of Product:")
-                        #updatePrice(conn, barcode)
+                        updatePrice(conn, barcode, price)
                     closeConnection(conn, database)
-                elif selection == '4':
+                elif selection == '5':
                     print ("Add to inventory") 
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
                         barcode=input("Enter barcode of Product to Add:")
                         stock=input("Enter amount in stock:")
-                        #addToInventory(conn,storeID, barcode, stock)
+                        addToInventory(conn,storeID, barcode, stock)
                     closeConnection(conn, database)
-                elif selection == '5': 
+                elif selection == '6': 
                     print("Remove from inventory") 
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
                         barcode=input("Enter barcode of Product to Remove:")
-                        stock=input("Enter amount sold:")
-                        #removeFromInventory(conn,storeID, barcode, stock)
+                        sold=input("Enter amount sold:")
+                        sql = """Select i_stock from Inventory WHERE i_storeID = {} AND i_barcode = {}; """.format(storeID, barcode)
+                        #conn.execute("SELECT s_name, SUM(w_capacity), ps_availqty FROM supplier, warehouse, partsupp WHERE s_suppkey  = w_suppkey AND ps_suppkey = s_suppkey AND s_name = ?",[suppname])
+                        cur = conn.cursor()
+                        cur.execute(sql)
+    
+                        rows = cur.fetchall()
+                        #for row in rows:
+                         #   print(rows[0][0])
+                        stock = rows[0][0] - int(sold)
+                        print(stock)
+                        if stock == 0:
+                            removeFromInventory(conn,storeID, barcode)
+                        else:
+                            subtractFromInventory(conn,storeID, barcode, stock)
+
                     closeConnection(conn, database)
-                elif selection == '6': 
+                elif selection == '4': 
                     print("Lookup Barcode")
                     barcode=input("Enter barcode to look up:")
                     #getprice
