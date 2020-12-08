@@ -325,6 +325,17 @@ def main():
                     print("Remove to inventory:")
                 elif selection == '6': 
                     print("View Store Inventory:")
+                    storeID=input("Enter storeID to display inventory: ")
+                    conn = openConnection(database)
+                    with conn:
+                        printInventory(conn, storeID)
+                        print("Save to file? y/n\n")
+                        selection=input("Enter Selection:") 
+
+                        if selection == 'y':
+                            saveInventory(conn, storeID)
+
+                    closeConnection(conn, database)
                 elif selection == '7': 
                     print("Returning to Main Menu...")
                     break
