@@ -59,7 +59,7 @@ def saveAllStock(_conn):
         rows = cur.fetchall()
         with open('StockAtAllStores.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            inventory_writer.writerow('{:<10} {:<10} {:>10} {:<10} {:>10} '.format("Barcodes", "Type", "Price","StoreID","Stock"))
+            #inventory_writer.writerow('{:<10} {:<10} {:>10} {:<10} {:>10} '.format("Barcodes", "Type", "Price","StoreID","Stock"))
             for row in rows:
                 inventory_writer.writerow(row)
                 
@@ -101,7 +101,7 @@ def checkPrice(_conn, barcode):
 def printInventory(_conn, storeID):
     try:   
 
-        sql = """SELECT i_storeID, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
+        sql = """SELECT i_storeID, i_barcode, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -118,7 +118,7 @@ def printInventory(_conn, storeID):
 def saveInventory(_conn, storeID):
     try:   
 
-        sql = """SELECT i_storeID, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
+        sql = """SELECT i_storeID, i_barcode, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
