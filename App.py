@@ -391,7 +391,7 @@ def main():
     
                         rows = cur.fetchall()
                         stock = rows[0][0] - int(sold)
-                        print(stock)
+                        #print(stock)
                         if stock == 0:
                             removeFromInventory(conn,storeID, barcode)
                         else:
