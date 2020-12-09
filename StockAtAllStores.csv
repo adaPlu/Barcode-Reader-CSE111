@@ -4,7 +4,7 @@ B,a,r,c,o,d,e,s, , , ,T,y,p,e, , , , , , , , , , , , ,P,r,i,c,e, ,S,t,o,r,e,I,D,
 10007002,produce,1.99,Store#001,1
 10100801,electonics,432.96,Store#001,12
 11140201,clothes,3.99,Store#001,1
-10000002,produce,5.96,Store#002,1
+10000002,produce,999999.99,Store#002,1
 10100001,electonics,32.96,Store#003,7
 10060001,meat,3.99,Store#004,11
 10007002,produce,1.99,Store#004,1

@@ -217,7 +217,20 @@ def deleteProduct(_conn, _p_barcode):
        
     except Error as e:
         print(e)       
+def addCustomer(_conn, barcode, customer, store):
+    
+    #addSupplier(_conn, supplier, s_cityKey, s_countryKey)
+    try:   
+    
+        sql = """INSERT INTO Customer Values ({},{},{});""".format(customer, store, barcode)
 
+        cur = _conn.cursor()
+        
+        cur.execute(sql)
+        
+       
+    except Error as e:
+        print(e) 
 def addProduct(_conn, _p_barcode, supplier, typ, price):
     
     #addSupplier(_conn, supplier, s_cityKey, s_countryKey)
@@ -500,6 +513,19 @@ def main():
 
                     closeConnection(conn, database)
                 elif selection == '7': 
+                    print("Add Customer")
+                    store=input("Enter storeID: ")
+                    customer=input("Enter customer: ")
+                    barcode=input("Enter barcode: ")
+                    conn = openConnection(database)
+                    with conn:
+                       addCustomer(conn,barcode, customer, store)
+
+                      
+
+                    closeConnection(conn, database)
+                
+                elif selection == '8': 
                     print("Store Inventory:")
                     storeID=input("Enter storeID to display inventory: ")
                     conn = openConnection(database)
@@ -512,8 +538,7 @@ def main():
                             saveInventory(conn, storeID)
 
                     closeConnection(conn, database)
-                
-                elif selection == '8': 
+                elif selection == '9': 
                     print("Store Product List:")
                     storeID=input("Enter storeID to display product list: ")
                     conn = openConnection(database)
@@ -526,7 +551,7 @@ def main():
                             saveProduct(conn, storeID)
 
                     closeConnection(conn, database)
-                elif selection == '9': 
+                elif selection == '10': 
                     print("Store Customer List:")
                     storeID=input("Enter storeID to display product list: ")
                     conn = openConnection(database)
@@ -539,7 +564,7 @@ def main():
                             saveCustomer(conn, storeID)
 
                     closeConnection(conn, database)
-                elif selection == '10': 
+                elif selection == '11': 
                     print("Stock At All Stores:")
                     conn = openConnection(database)
                     with conn:
@@ -551,8 +576,7 @@ def main():
                             saveAllStock(conn)
 
                     closeConnection(conn, database)
-                    break
-                elif selection == '11': 
+                elif selection == '12': 
                     print("Returning to Main Menu...")
                     break
                 else: 
