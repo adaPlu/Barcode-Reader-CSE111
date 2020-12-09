@@ -219,6 +219,8 @@ def deleteProduct(_conn, _p_barcode):
         print(e)       
 
 def addProduct(_conn, _p_barcode, supplier, typ, price):
+    
+    #addSupplier(_conn, supplier, s_cityKey, s_countryKey)
     try:   
     
         sql = """INSERT INTO Product Values ({},{},{},{});""".format(_p_barcode, supplier, typ, price)
@@ -304,11 +306,12 @@ def main():
     managerMenu['4']="- Lookup Barcode"
     managerMenu['5']="- Add to Inventory"
     managerMenu['6']="- Remove From Inventory"
-    managerMenu['7']="- View Store Inventory"
-    managerMenu['8']="- View Product List"
-    managerMenu['9']="- View Customer List"
-    managerMenu['10']="- Check All Store Stock"
-    managerMenu['11']="- Exit"
+    managerMenu['7']="- Add Customer Data"
+    managerMenu['8']="- View Store Inventory"
+    managerMenu['9']="- View Product List"
+    managerMenu['10']="- View Customer List"
+    managerMenu['11']="- Check All Store Stock"
+    managerMenu['12']="- Exit"
 
     
     menu = {}
@@ -353,13 +356,27 @@ def main():
                         barCodeLookUp(conn,barcode)
                     closeConnection(conn, database) 
                 elif selection == '4':
-                    print ("Add to inventory:") 
+                     print ("Add to inventory:") 
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
                         barcode=input("Enter barcode of Product to Add:")
-                        stock=input("Enter amount in stock:")
+                        recieved=input("Enter amount recieved:")
                         #addToInventory(conn,storeID, barcode, stock)
+                        sql = """Select i_stock from Inventory WHERE i_storeID = '{}' AND i_barcode = '{}'; """.format(storeID, barcode)
+                        cur = conn.cursor()
+                        cur.execute(sql)
+                        rows = cur.fetchall()
+                        #print(cur.rowcount)
+                        if  cur.rowcount == -1:
+                            #print("Barcode not present in inventory.")
+                            addToInventory(conn,storeID, barcode, recieved)
+                        else:
+                            
+                            stock = rows[0][0] + int(recieved)
+                            #print(stock)
+                            setInventoryStock(conn,storeID, barcode, stock)
+
                     closeConnection(conn, database)
                 elif selection == '5': 
                     print("Remove from inventory:") 
