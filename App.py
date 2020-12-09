@@ -356,7 +356,7 @@ def main():
                         barCodeLookUp(conn,barcode)
                     closeConnection(conn, database) 
                 elif selection == '4':
-                     print ("Add to inventory:") 
+                    print ("Add to inventory:") 
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
