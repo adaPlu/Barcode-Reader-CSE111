@@ -1,4 +1,4 @@
-"CustomerID, StoreID"
+"CustomerID, StoreID, Barcode"
 Customer#000000001,Store#001,11140001
 Customer#000000002,Store#001,10060001
 Customer#000000003,Store#001,10007002
