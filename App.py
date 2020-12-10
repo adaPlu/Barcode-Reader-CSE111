@@ -35,7 +35,7 @@ def emptyTables(conn):
 
 def checkStock(_conn, barcode, storeID):
     try:   
-        sql = """SELECT i_stock FROM Inventory WHERE i_barcode = {} AND i_storeID = '{}';""".format(barcode, storeID)
+        sql = """SELECT DISTINCT i_stock FROM Inventory WHERE i_barcode = {} AND i_storeID = '{}';""".format(barcode, storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -85,7 +85,7 @@ def saveAllStock(_conn):
 def barCodeLookUp(_conn,_p_barcode):
     try:   
 
-        sql = """Select * from Product where p_barcode = {}; """.format(_p_barcode)
+        sql = """Select DISTINCT * from Product where p_barcode = {}; """.format(_p_barcode)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -100,13 +100,13 @@ def barCodeLookUp(_conn,_p_barcode):
 def checkPrice(_conn, barcode):
     try:   
 
-        sql = """ SELECT p_price FROM Product WHERE p_barcode = '{}';""".format(barcode)
+        sql = """ SELECT DISTINCT p_price FROM Product WHERE p_barcode = '{}';""".format(barcode)
         cur = _conn.cursor()
         cur.execute(sql)
     
         rows = cur.fetchall()
         for row in rows: 
-            l = '{:<10}'.format(row[0])
+            l = 'Price:{:<10}'.format(row[0])
             print(l)
 
     except Error as e:
@@ -312,7 +312,7 @@ def updatePrice(_conn, barcode, price):
 
 def addToInventory(_conn,storeID, barcode, stock):
     try:   
-        sql = """INSERT INTO Inventory Values ({},{},{});""".format(storeID, barcode, stock)
+        sql = """INSERT INTO Inventory Values ('{}','{}','{}');""".format(storeID, barcode, stock)
         cur = _conn.cursor()  
         cur.execute(sql)
         
@@ -330,7 +330,7 @@ def setInventoryStock(_conn, storeID, barcode, stock):
 
 def removeFromInventory(_conn, storeID, barcode):
     try:   
-        sql = """DELETE FROM Inventory WHERE i_barcode = {} AND i_storeID = {};""".format(barcode, storeID)
+        sql = """DELETE FROM Inventory WHERE i_barcode = {} AND i_storeID = '{}';""".format(barcode, storeID)
         cur = _conn.cursor()
         cur.execute(sql)
        
@@ -348,7 +348,7 @@ def main():
     with conn:
         
         #Empty Tables if needed
-        #emptyTables(conn)
+        emptyTables(conn)
         populateTablesFromFile(conn)
     closeConnection(conn, database)
     
@@ -360,7 +360,7 @@ def main():
     clerkMenu['4']="- Add to Inventory"
     clerkMenu['5']="- Remove From Inventory"
     clerkMenu['6']="- View Store Inventory"
-    clerkMenu['8']="- Exit"
+    clerkMenu['7']="- Exit"
 
     managerMenu = {}
     managerMenu['1']="- Add Product" 
@@ -377,8 +377,8 @@ def main():
     managerMenu['12']="- Exit"
 
     menu = {}
-    menu['1']="- Manager" 
-    menu['2']="- Clerk"
+    menu['1']="- Clerk Menu"
+    menu['2']="- Manager Menu" 
     menu['3']="- Exit Application"
     
     #Main Menu Loop
@@ -388,7 +388,7 @@ def main():
         for entry in options: 
             print(entry, menu[entry])
         selection=input("Enter User Type:") 
-        if selection =='2':
+        if selection =='1':
              #Clerk Menu Loop 
             while True: 
                 print("Clerk Menu:")
@@ -444,13 +444,13 @@ def main():
                         storeID=input("Enter storeID of Inventory:")
                         barcode=input("Enter barcode of Product to Remove:")
                         sold=input("Enter amount sold:")
-                        sql = """Select i_stock from Inventory WHERE i_storeID = {} AND i_barcode = {}; """.format(storeID, barcode)
+                        sql = """Select i_stock from Inventory WHERE i_storeID = '{}' AND i_barcode = {}; """.format(storeID, barcode)
                         cur = conn.cursor()
                         cur.execute(sql)
     
                         rows = cur.fetchall()
                         stock = rows[0][0] - int(sold)
-                        if stock == 0:
+                        if stock <= 0:
                             removeFromInventory(conn,storeID, barcode)
                         else:
                             subtractFromInventory(conn,storeID, barcode, stock)
@@ -474,7 +474,7 @@ def main():
                     break
                 else: 
                     print("Unknown Option Selected!") 
-        elif selection == '1': 
+        elif selection == '2': 
             #Manager Menu Loop
             while True: 
                 print("Manager Menu:")
@@ -649,26 +649,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-#Lookup Item
-#Display a stores Inventory
-#Display Price
-#Lookup City of Store
-#Add Product
-#Delete Product
-#Update Product Price
-#Add Stock to Inventory
-#Remove Stock From Inventory
-#Remove scanned item from inventory
-#To display scaned barcodes we can read from a file which contains the barcodes to look up
-#Display product type and price base on barcode '10100801' entered
-#Displays the supplier with the least expensive product and the supplier with the most expensive product
-#Display product type that needs to be restock. A product needs to be restock if there are less than 15 in stock. 
-#Display the avg price by product type
-#Display the country and the number of suppliers that it has
-#Display city name and the number of suppliers it has
-#Display countries with the max and min shipping rate
-#Display the different product type from Producer
-#Display supplier and the number of product type that it supplies
 
 
 
