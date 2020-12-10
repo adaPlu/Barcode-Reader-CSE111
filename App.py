@@ -20,9 +20,15 @@ def closeConnection(_conn, _dbFile):
     except Error as e:
         print(e)
 
-def populateFromFile(conn):
+def populateTablesFromFile(conn):
     cursor = conn.cursor()
     sql_file = open("db.sql")
+    sql_as_string = sql_file. read()
+    cursor.executescript(sql_as_string)
+
+def emptyTables(conn):
+    cursor = conn.cursor()
+    sql_file = open("emptyTables.sql")
     sql_as_string = sql_file. read()
     cursor.executescript(sql_as_string)
 
@@ -183,7 +189,7 @@ def printCustomer(_conn, storeID):
     
         rows = cur.fetchall()
         for row in rows: 
-            l = '{:<10} {:<10} {:<10} '.format(row[0], row[1], row[2])
+            l = '{:<10} {:<10} '.format(row[0], row[1])
             print(l)
 
     except Error as e:
@@ -223,12 +229,12 @@ def deleteProduct(_conn, _p_barcode):
        
     except Error as e:
         print(e)       
-def addCustomer(_conn, barcode, customer, store):
+def addCustomer(_conn, customer, store):
     
     #addSupplier(_conn, supplier, s_cityKey, s_countryKey)
     try:   
     
-        sql = """INSERT INTO Customer Values ({},{},{});""".format(customer, store, barcode)
+        sql = """INSERT INTO Customer Values ('{}','{}');""".format(customer, store)
 
         cur = _conn.cursor()
         
@@ -237,6 +243,22 @@ def addCustomer(_conn, barcode, customer, store):
        
     except Error as e:
         print(e) 
+
+def addProductCustomer(_conn, customer, barcode):
+    
+    #addSupplier(_conn, supplier, s_cityKey, s_countryKey)
+    try:   
+    
+        sql = """INSERT INTO ProductCustomer Values ('{}',{});""".format(customer, barcode)
+
+        cur = _conn.cursor()
+        
+        cur.execute(sql)
+        
+       
+    except Error as e:
+        print(e) 
+
 def addProduct(_conn, _p_barcode, supplier, typ, price):
     
     #addSupplier(_conn, supplier, s_cityKey, s_countryKey)
@@ -308,12 +330,19 @@ def removeFromInventory(_conn, storeID, barcode):
 
 def main():
 
-    #Variables
+    #DB File name
     database = r"inventory.sqlite"
+
+    #Populate Tables From File
     conn = openConnection(database)
     with conn:
-        populateFromFile(conn)
+        
+        #Empty Tables if needed
+        #emptyTables(conn)
+        populateTablesFromFile(conn)
     closeConnection(conn, database)
+    
+    #Menus    
     clerkMenu = {}
     clerkMenu['1']="- Check Stock" 
     clerkMenu['2']="- Check Price"
@@ -321,7 +350,8 @@ def main():
     clerkMenu['4']="- Add to Inventory"
     clerkMenu['5']="- Remove From Inventory"
     clerkMenu['6']="- View Store Inventory"
-    clerkMenu['7']="- Exit"
+    clerkMenu['8']="- Exit"
+
     managerMenu = {}
     managerMenu['1']="- Add Product" 
     managerMenu['2']="- Remove Product"
@@ -336,20 +366,20 @@ def main():
     managerMenu['11']="- Display Inventory for All Stores"
     managerMenu['12']="- Exit"
 
-    
     menu = {}
     menu['1']="- Manager" 
     menu['2']="- Clerk"
     menu['3']="- Exit Application"
     
-    #Main Loop
+    #Main Menu Loop
     print("Welcome to Inventory Manager v1.0")
     while True:
         options=menu.keys()
         for entry in options: 
             print(entry, menu[entry])
         selection=input("Enter User Type:") 
-        if selection =='2': 
+        if selection =='2':
+             #Clerk Menu Loop 
             while True: 
                 print("Clerk Menu:")
                 options=clerkMenu.keys()
@@ -385,19 +415,15 @@ def main():
                         storeID=input("Enter storeID of Inventory:")
                         barcode=input("Enter barcode of Product to Add:")
                         recieved=input("Enter amount recieved:")
-                        #addToInventory(conn,storeID, barcode, stock)
                         sql = """Select i_stock from Inventory WHERE i_storeID = '{}' AND i_barcode = '{}'; """.format(storeID, barcode)
                         cur = conn.cursor()
                         cur.execute(sql)
                         rows = cur.fetchall()
-                        #print(cur.rowcount)
                         if  cur.rowcount == -1:
-                            #print("Barcode not present in inventory.")
                             addToInventory(conn,storeID, barcode, recieved)
                         else:
                             
                             stock = rows[0][0] + int(recieved)
-                            #print(stock)
                             setInventoryStock(conn,storeID, barcode, stock)
 
                     closeConnection(conn, database)
@@ -414,7 +440,6 @@ def main():
     
                         rows = cur.fetchall()
                         stock = rows[0][0] - int(sold)
-                        #print(stock)
                         if stock == 0:
                             removeFromInventory(conn,storeID, barcode)
                         else:
@@ -440,6 +465,7 @@ def main():
                 else: 
                     print("Unknown Option Selected!") 
         elif selection == '1': 
+            #Manager Menu Loop
             while True: 
                 print("Manager Menu:")
                 options=managerMenu.keys()
@@ -523,17 +549,28 @@ def main():
 
                     closeConnection(conn, database)
                 elif selection == '7': 
-                    print("Add Customer")
+                    print("Add Customer:")
                     store=input("Enter storeID: ")
-                    customer=input("Enter customer: ")
-                    barcode=input("Enter barcode: ")
+                    customer=input("Enter customer ID: ")
                     conn = openConnection(database)
                     with conn:
-                       addCustomer(conn,barcode, customer, store)
+                       addCustomer(conn, customer, store)
 
                       
 
                     closeConnection(conn, database)
+                    
+                    print("Enter ProductCustomer Data: y/n")         
+                    selection=input("Enter Selection:") 
+                    if selection == 'y':
+                        barcode=input("Enter barcode of product: ")
+                        conn = openConnection(database)
+                        with conn:
+                            addProductCustomer(conn, customer, barcode)
+
+                        
+
+                        closeConnection(conn, database)
                 
                 elif selection == '8': 
                     print("Store Inventory:")

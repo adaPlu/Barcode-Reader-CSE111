@@ -1,18 +1,3 @@
---Deletes all Data in Tables
---/*
-delete from  Inventory;
-delete from Producer;
-delete from Supplier;
-delete from Customer;
-delete from Product;
-delete from Store;
-delete from City;
-delete from Country;
-delete from StoreSupp;
-delete from ProductCustomer;
---*/
-
-
 ------------------------------TABLES CREATED------------------------------
 
 CREATE TABLE IF NOT EXISTS Inventory(
@@ -42,10 +27,10 @@ CREATE TABLE IF NOT EXISTS Product(
  p_price    DECIMAL(15,0) not NULL
 );
 
+
 CREATE TABLE IF NOT EXISTS Customer(
  cu_customerID  VARCHAR(30) not NULL,
- cu_storeID  VARCHAR(30) not NULL,
- cu_barcode  INT(15,0) not NULL
+ cu_storeID  VARCHAR(30) not NULL
 );
 
 CREATE TABLE IF NOT EXISTS Store(
@@ -78,9 +63,9 @@ CREATE TABLE IF NOT EXISTS ProductCustomer(
 );
 
 --Trigger remove any customers of a removed prduct and any inventory of a removed product
-CREATE TRIGGER IF NOT EXISTS removeCustomers after DELETE on Product
+
+CREATE TRIGGER IF NOT EXISTS removeProductCustomers after DELETE on Product
 begin
-    DELETE FROM Customer WHERE OLD.p_barcode = cu_barcode;
     DELETE FROM ProductCustomer WHERE OLD.p_barcode = pc_barcode;
 end;
 
@@ -88,11 +73,8 @@ CREATE TRIGGER IF NOT EXISTS removeInventory after DELETE on Product
 begin
     DELETE FROM Inventory WHERE OLD.p_barcode = i_barcode;
 end;
---DROP TRIGGER addProductCustomer;
-CREATE TRIGGER IF NOT EXISTS addProductCustomer after INSERT on Customer
-begin
-    INSERT INTO ProductCustomer Values (NEW.cu_customerID, NEW.cu_barcode);
-end;
+
+
 ------------------------------TABLES POPULATED------------------------------------
 
 --Inventory: Table data
@@ -157,26 +139,26 @@ INSERT INTO Product Values (11140201,'Supplier#000000005','clothes',3.99);
 INSERT INTO Product Values (10100802,'Supplier#000000025','electronics',89.99);
 
 --Customer: Table data
-INSERT INTO Customer Values ('Customer#000000001','Store#001',11140001);
-INSERT INTO Customer Values ('Customer#000000002','Store#001',10060001);
-INSERT INTO Customer Values ('Customer#000000003','Store#001',10007002);
-INSERT INTO Customer Values ('Customer#000000004','Store#001',10100801);
-INSERT INTO Customer Values ('Customer#000000005','Store#001',10000901);
-INSERT INTO Customer Values ('Customer#000000006','Store#002',11140201);
-INSERT INTO Customer Values ('Customer#000000007','Store#002',10000001);
-INSERT INTO Customer Values ('Customer#000000008','Store#003',10000002);
-INSERT INTO Customer Values ('Customer#000000009','Store#004',10100001);
-INSERT INTO Customer Values ('Customer#000000010','Store#005',11140002);
-INSERT INTO Customer Values ('C1','S1',1114);
-INSERT INTO Customer Values ('C2','S1',1006);
-INSERT INTO Customer Values ('C3','S1',1000);
-INSERT INTO Customer Values ('C4','S1',1010);
-INSERT INTO Customer Values ('C5','S2',1000);
-INSERT INTO Customer Values ('C6','S4',1114);
-INSERT INTO Customer Values ('C7','S4',1000);
-INSERT INTO Customer Values ('C8','S4',1000);
-INSERT INTO Customer  Values ('C9','S5',1010);
-INSERT INTO Customer Values ('C10','S5',1114);
+INSERT INTO Customer Values ('Customer#000000001','Store#001');
+INSERT INTO Customer Values ('Customer#000000002','Store#001');
+INSERT INTO Customer Values ('Customer#000000003','Store#001');
+INSERT INTO Customer Values ('Customer#000000004','Store#001');
+INSERT INTO Customer Values ('Customer#000000005','Store#001');
+INSERT INTO Customer Values ('Customer#000000006','Store#002');
+INSERT INTO Customer Values ('Customer#000000007','Store#002');
+INSERT INTO Customer Values ('Customer#000000008','Store#003');
+INSERT INTO Customer Values ('Customer#000000009','Store#004');
+INSERT INTO Customer Values ('Customer#000000010','Store#005');
+INSERT INTO Customer Values ('C1','S1');
+INSERT INTO Customer Values ('C2','S1');
+INSERT INTO Customer Values ('C3','S1');
+INSERT INTO Customer Values ('C4','S1');
+INSERT INTO Customer Values ('C5','S2');
+INSERT INTO Customer Values ('C6','S4');
+INSERT INTO Customer Values ('C7','S4');
+INSERT INTO Customer Values ('C8','S4');
+INSERT INTO Customer  Values ('C9','S5');
+INSERT INTO Customer Values ('C10','S5');
 
 
 --Store: Table data
@@ -261,6 +243,7 @@ INSERT INTO City Values (1022,24,'ATLANTA');
 INSERT INTO City Values (1023,12,'TOKYO');
 INSERT INTO City Values (1024,24,'LONG BEACH');
 
+
 --StoreSupp: Table data
 INSERT INTO StoreSupp Values ('Store#001','Supplier#000000001');
 INSERT INTO StoreSupp Values ('Store#001','Supplier#000000002');
@@ -276,7 +259,7 @@ INSERT INTO StoreSupp Values ('Store#006','Supplier#000000010');
 INSERT INTO StoreSupp Values ('Store#007','Supplier#000000009');
 INSERT INTO StoreSupp Values ('Store#008','Supplier#000000011');
 
-/*
+
 --ProductCustomer
 --Replace the far left 0 with 1
 INSERT INTO ProductCustomer Values ('Customer#000000001',11140001);
@@ -299,6 +282,6 @@ INSERT INTO ProductCustomer Values ('C7',1000);
 INSERT INTO ProductCustomer Values ('C8',1000);
 INSERT INTO ProductCustomer Values ('C9',1010);
 INSERT INTO ProductCustomer Values ('C10',1114);
-*/
+
 
 
