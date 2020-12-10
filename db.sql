@@ -88,6 +88,11 @@ CREATE TRIGGER IF NOT EXISTS removeInventory after DELETE on Product
 begin
     DELETE FROM Inventory WHERE OLD.p_barcode = i_barcode;
 end;
+--DROP TRIGGER addProductCustomer;
+CREATE TRIGGER IF NOT EXISTS addProductCustomer after INSERT on Customer
+begin
+    INSERT INTO ProductCustomer Values (NEW.cu_customerID, NEW.cu_barcode);
+end;
 ------------------------------TABLES POPULATED------------------------------------
 
 --Inventory: Table data
@@ -271,6 +276,7 @@ INSERT INTO StoreSupp Values ('Store#006','Supplier#000000010');
 INSERT INTO StoreSupp Values ('Store#007','Supplier#000000009');
 INSERT INTO StoreSupp Values ('Store#008','Supplier#000000011');
 
+/*
 --ProductCustomer
 --Replace the far left 0 with 1
 INSERT INTO ProductCustomer Values ('Customer#000000001',11140001);
@@ -293,6 +299,6 @@ INSERT INTO ProductCustomer Values ('C7',1000);
 INSERT INTO ProductCustomer Values ('C8',1000);
 INSERT INTO ProductCustomer Values ('C9',1010);
 INSERT INTO ProductCustomer Values ('C10',1114);
-
+*/
 
 

@@ -333,7 +333,7 @@ def main():
     managerMenu['8']="- View Store Inventory"
     managerMenu['9']="- View Product List"
     managerMenu['10']="- View Customer List"
-    managerMenu['11']="- Check All Store Stock"
+    managerMenu['11']="- Display Inventory for All Stores"
     managerMenu['12']="- Exit"
 
     
