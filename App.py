@@ -115,7 +115,7 @@ def checkPrice(_conn, barcode):
 def printInventory(_conn, storeID):
     try:   
 
-        sql = """SELECT i_storeID, i_barcode, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
+        sql = """SELECT DISTINCT i_storeID, i_barcode, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -133,7 +133,7 @@ def printInventory(_conn, storeID):
 def saveInventory(_conn, storeID):
     try:   
 
-        sql = """SELECT i_storeID, i_barcode, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
+        sql = """SELECT DISTINCT i_storeID, i_barcode, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -153,7 +153,7 @@ def saveInventory(_conn, storeID):
 def printProduct(_conn, storeID):
     try:   
 
-        sql = """SELECT * FROM Product, Inventory WHERE i_storeID = '{}' AND p_barcode = i_barcode;""".format(storeID)
+        sql = """SELECT DISTINCT * FROM Product, Inventory WHERE i_storeID = '{}' AND p_barcode = i_barcode;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -171,7 +171,7 @@ def printProduct(_conn, storeID):
 def saveProduct(_conn, storeID):
     try:   
 
-        sql = """SELECT * FROM Product, Inventory WHERE i_storeID = '{}' AND p_barcode = i_barcode;""".format(storeID)
+        sql = """SELECT DISTINCT * FROM Product, Inventory WHERE i_storeID = '{}' AND p_barcode = i_barcode;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -191,7 +191,7 @@ def saveProduct(_conn, storeID):
 def printCustomer(_conn, storeID):
     try:   
 
-        sql = """SELECT cu_customerID, cu_storeID, pc_barcode FROM Customer, ProductCustomer WHERE cu_storeID = '{}' AND pc_custID = cu_customerID;""".format(storeID)
+        sql = """SELECT DISTINCT cu_customerID, cu_storeID, pc_barcode FROM Customer, ProductCustomer WHERE cu_storeID = '{}' AND pc_custID = cu_customerID;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
         print("CustomerID, StoreID")
@@ -208,7 +208,7 @@ def printCustomer(_conn, storeID):
 def saveCustomer(_conn, storeID):
     try:   
 
-        sql = """SELECT cu_customerID, cu_storeID, pc_barcode FROM Customer, ProductCustomer WHERE cu_storeID = '{}' AND pc_custID = cu_customerID;""".format(storeID)
+        sql = """SELECT DISTINCT cu_customerID, cu_storeID, pc_barcode FROM Customer, ProductCustomer WHERE cu_storeID = '{}' AND pc_custID = cu_customerID;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     

@@ -1,8 +1,9 @@
-Store#001,3,produce,12.33
-Store#001,7,electonics,32.96
-Store#001,65,clothes,33.99
-Store#001,11,meat,3.99
-Store#001,1,produce,1.99
-Store#001,12,electonics,432.96
-Store#001,18,furniture,22.96
-Store#001,1,clothes,3.99
+"StoreID, Barcode, Stock, Type, Price"
+Store#001,10000002,3,produce,5.96
+Store#001,10100001,7,electronics,32.96
+Store#001,11140001,65,clothes,33.99
+Store#001,10060001,11,meat,3.99
+Store#001,10007002,1,produce,1.99
+Store#001,10100801,12,electronics,432.96
+Store#001,10000901,18,furniture,22.96
+Store#001,11140201,1,clothes,3.99
