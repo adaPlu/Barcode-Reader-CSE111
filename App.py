@@ -63,14 +63,14 @@ def saveAllStock(_conn):
         cur.execute(sql)
     
         rows = cur.fetchall()
-        with open('StockAtAllStores.csv', mode='w') as inventory_file:
+        with open('output/StockAtAllStores.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             #inventory_writer.writerow('{:<10} {:<10} {:>10} {:<10} {:>10} '.format("Barcodes", "Type", "Price","StoreID","Stock"))
             for row in rows:
                 inventory_writer.writerow(row)
                 
        
-        print("Saving data to StockAtAllStores.csv...")
+        print("Saving data to output/StockAtAllStores.csv...")
     except Error as e:
         print(e)
 
@@ -129,13 +129,13 @@ def saveInventory(_conn, storeID):
         cur.execute(sql)
     
         rows = cur.fetchall()
-        with open('Inventory_'+ storeID +'.csv', mode='w') as inventory_file:
+        with open('output/Inventory_'+ storeID +'.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for row in rows:
                 inventory_writer.writerow(row)
                 
        
-        print("Saving data to Inventory_" + storeID +".csv...")
+        print("Saving data to output/Inventory_" + storeID +".csv...")
     except Error as e:
         print(e)
 
@@ -164,13 +164,13 @@ def saveProduct(_conn, storeID):
         cur.execute(sql)
     
         rows = cur.fetchall()
-        with open('Products_'+ storeID +'.csv', mode='w') as inventory_file:
+        with open('output/Products_'+ storeID +'.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for row in rows:
                 inventory_writer.writerow(row)
                 
        
-        print("Saving data to Products_" + storeID +".csv...")
+        print("output/Saving data to Products_" + storeID +".csv...")
     except Error as e:
         print(e)
 
@@ -199,13 +199,13 @@ def saveCustomer(_conn, storeID):
         cur.execute(sql)
     
         rows = cur.fetchall()
-        with open('Customer_'+ storeID +'.csv', mode='w') as inventory_file:
+        with open('output/Customer_'+ storeID +'.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for row in rows:
                 inventory_writer.writerow(row)
                 
        
-        print("Saving data to Customer_" + storeID +".csv...")
+        print("output/Saving data to Customer_" + storeID +".csv...")
     except Error as e:
         print(e)
 
