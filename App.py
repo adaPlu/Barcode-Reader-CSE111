@@ -194,7 +194,7 @@ def printCustomer(_conn, storeID):
         sql = """SELECT DISTINCT cu_customerID, cu_storeID, pc_barcode FROM Customer, ProductCustomer WHERE cu_storeID = '{}' AND pc_custID = cu_customerID;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
-        print("CustomerID, StoreID")
+        print("CustomerID, StoreID, Barcode")
         rows = cur.fetchall()
         for row in rows: 
             l = '{:<10} {:<10} {:<10} '.format(row[0], row[1], row[2])
@@ -215,7 +215,7 @@ def saveCustomer(_conn, storeID):
         rows = cur.fetchall()
         with open('output/Customer_'+ storeID +'.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            header = ["CustomerID, StoreID"]
+            header = ["CustomerID, StoreID, Barcode"]
             inventory_writer.writerow(header)
             for row in rows:
                 inventory_writer.writerow(row)
