@@ -62,8 +62,7 @@ CREATE TABLE IF NOT EXISTS ProductCustomer(
  pc_barcode     INT(15,0) not NULL
 );
 
---Trigger remove any customers of a removed prduct and any inventory of a removed product
-
+--Trigger to remove any customers of a removed prduct and any inventory of a removed product
 CREATE TRIGGER IF NOT EXISTS removeProductCustomers after DELETE on Product
 begin
     DELETE FROM ProductCustomer WHERE OLD.p_barcode = pc_barcode;

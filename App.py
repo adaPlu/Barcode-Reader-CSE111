@@ -49,11 +49,12 @@ def checkStock(_conn, barcode, storeID):
 
 def checkAllStock(_conn):
     try:   
-        sql = """SELECT p_barcode,p_type,p_price,i_storeID,i_stock FROM Product, Inventory WHERE p_barcode = i_barcode AND i_stock <= 15 ORDER BY i_storeID;"""
+        sql = """SELECT DISTINCT p_barcode,p_type,p_price,i_storeID,i_stock FROM Product, Inventory WHERE p_barcode = i_barcode ORDER BY i_storeID;"""
         cur = _conn.cursor()
         cur.execute(sql)
     
         rows = cur.fetchall()
+        print("Barcode, Type, Price, StoreID, Stock")
         for row in rows: 
             l = '{:<10} {:<10} {:>10} {:<10} {:>10} '.format(row[0], row[1], row[2],row[3], row[4])
             print(l)
@@ -64,14 +65,15 @@ def checkAllStock(_conn):
 def saveAllStock(_conn):
     try:   
 
-        sql = """SELECT p_barcode,p_type,p_price,i_storeID,i_stock FROM Product, Inventory WHERE p_barcode = i_barcode AND i_stock <= 15 ORDER BY i_storeID;"""
+        sql = """SELECT DISTINCT p_barcode,p_type,p_price,i_storeID,i_stock FROM Product, Inventory WHERE p_barcode = i_barcode ORDER BY i_storeID;"""
         cur = _conn.cursor()
         cur.execute(sql)
     
         rows = cur.fetchall()
         with open('output/StockAtAllStores.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            #inventory_writer.writerow('{:<10} {:<10} {:>10} {:<10} {:>10} '.format("Barcodes", "Type", "Price","StoreID","Stock"))
+            header = ["Barcode, Type, Price, StoreID, Stock"]
+            inventory_writer.writerow(header)
             for row in rows:
                 inventory_writer.writerow(row)
                 
@@ -118,6 +120,7 @@ def printInventory(_conn, storeID):
         cur.execute(sql)
     
         rows = cur.fetchall()
+        print("StoreID, Barcode, Stock, Type, Price")
         for row in rows: 
             l = '{:<10} {:<10} {:<10} {:<10} '.format(row[0], row[1], row[2], row[3])
             print(l)
@@ -137,6 +140,8 @@ def saveInventory(_conn, storeID):
         rows = cur.fetchall()
         with open('output/Inventory_'+ storeID +'.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            header = ["StoreID, Barcode, Stock, Type, Price"]
+            inventory_writer.writerow(header)
             for row in rows:
                 inventory_writer.writerow(row)
                 
@@ -153,6 +158,7 @@ def printProduct(_conn, storeID):
         cur.execute(sql)
     
         rows = cur.fetchall()
+        print("Barcode, SupplierID, Type, Price")
         for row in rows: 
             l = '{:<10} {:<10} {:<10} {:<10} '.format(row[0], row[1], row[2], row[3])
             print(l)
@@ -172,6 +178,8 @@ def saveProduct(_conn, storeID):
         rows = cur.fetchall()
         with open('output/Products_'+ storeID +'.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            header = ["Barcode, SupplierID, Type, Price"]
+            inventory_writer.writerow(header)
             for row in rows:
                 inventory_writer.writerow(row)
                 
@@ -183,13 +191,13 @@ def saveProduct(_conn, storeID):
 def printCustomer(_conn, storeID):
     try:   
 
-        sql = """SELECT * FROM Customer WHERE cu_storeID = '{}';""".format(storeID)
+        sql = """SELECT cu_customerID, cu_storeID, pc_barcode FROM Customer, ProductCustomer WHERE cu_storeID = '{}' AND pc_custID = cu_customerID;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
-    
+        print("CustomerID, StoreID")
         rows = cur.fetchall()
         for row in rows: 
-            l = '{:<10} {:<10} '.format(row[0], row[1])
+            l = '{:<10} {:<10} {:<10} '.format(row[0], row[1], row[2])
             print(l)
 
     except Error as e:
@@ -200,13 +208,15 @@ def printCustomer(_conn, storeID):
 def saveCustomer(_conn, storeID):
     try:   
 
-        sql = """SELECT * FROM Customer WHERE cu_storeID = '{}';""".format(storeID)
+        sql = """SELECT cu_customerID, cu_storeID, pc_barcode FROM Customer, ProductCustomer WHERE cu_storeID = '{}' AND pc_custID = cu_customerID;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
         rows = cur.fetchall()
         with open('output/Customer_'+ storeID +'.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            header = ["CustomerID, StoreID"]
+            inventory_writer.writerow(header)
             for row in rows:
                 inventory_writer.writerow(row)
                 
