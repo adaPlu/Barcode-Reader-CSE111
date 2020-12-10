@@ -150,6 +150,43 @@ def saveInventory(_conn, storeID):
     except Error as e:
         print(e)
 
+def printSupplier(_conn, storeID):
+    try:   
+
+        sql = """SELECT DISTINCT s_supplierID, ci_name, c_name, c_shippingRate FROM Supplier, StoreSupp, City, Country WHERE stu_storeID = '{}' AND stu_suppID = s_supplierID AND s_cityKey = ci_cityKey AND ci_countryKey = c_countryKey;""".format(storeID)
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        print("SupplierID, City, Country, ShippingRate")
+        for row in rows: 
+            l = '{:<10} {:<10} {:<10} {:<10} '.format(row[0], row[1], row[2], row[3])
+            print(l)
+
+    except Error as e:
+        print(e)
+
+
+
+def saveSupplier(_conn, storeID):
+    try:   
+
+        sql = """SELECT DISTINCT i_storeID, i_barcode, i_stock, p_type, p_price FROM Inventory,Product WHERE i_storeID = '{}' AND i_barcode = p_barcode;""".format(storeID)
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        with open('output/Supplier_'+ storeID +'.csv', mode='w') as inventory_file:
+            inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            header = ["SupplierID, City, Country, ShippingRate"]
+            inventory_writer.writerow(header)
+            for row in rows:
+                inventory_writer.writerow(row)
+                
+       
+        print("Saving data to output/Supplier_" + storeID +".csv...")
+    except Error as e:
+        print(e)
 def printProduct(_conn, storeID):
     try:   
 
@@ -373,8 +410,9 @@ def main():
     managerMenu['8']="- View Store Inventory"
     managerMenu['9']="- View Product List"
     managerMenu['10']="- View Customer List"
-    managerMenu['11']="- Display Inventory for All Stores"
-    managerMenu['12']="- Exit"
+    managerMenu['11']="- View Supplier List"
+    managerMenu['12']="- Display Inventory for All Stores"
+    managerMenu['13']="- Exit"
 
     menu = {}
     menu['1']="- Clerk Menu"
@@ -622,6 +660,19 @@ def main():
 
                     closeConnection(conn, database)
                 elif selection == '11': 
+                    print("Store Suppliers:")
+                    conn = openConnection(database)
+                    with conn:
+                        storeID = input("Enter storeID to display supplier list: ")
+                        printSupplier(conn, storeID)
+                        print("Save to file? y/n\n")
+                        selection=input("Enter Selection:") 
+
+                        if selection == 'y':
+                            saveAllSupplier(conn, storeID)
+
+                    closeConnection(conn, database)
+                elif selection == '12': 
                     print("Stock At All Stores:")
                     conn = openConnection(database)
                     with conn:
@@ -633,7 +684,7 @@ def main():
                             saveAllStock(conn)
 
                     closeConnection(conn, database)
-                elif selection == '12': 
+                elif selection == '13': 
                     print("Returning to Main Menu...")
                     break
                 else: 

@@ -9,15 +9,13 @@ CREATE TABLE IF NOT EXISTS Inventory(
 CREATE TABLE IF NOT EXISTS Producer(
  pr_name VARCHAR(25) not NULL,
  pr_type VARCHAR(25) not NULL,
- pr_cityKey  INT(15,0) not NULL,   
- pr_shippingRateKey  INT(15,0) not NULL
+ pr_cityKey  INT(15,0) not NULL 
 );
 
 
 CREATE TABLE IF NOT EXISTS Supplier(
  s_supplierID  VARCHAR(25) not NULL,
- s_cityKey      INT(15,0) not NULL,
- s_shippingRateKey  INT(15,0) not NULL
+ s_cityKey      INT(15,0) not NULL
 );
 
 CREATE TABLE IF NOT EXISTS Product(
@@ -100,31 +98,31 @@ INSERT INTO Inventory Values ('Store#005',10000001,35);
 
 --Producer: Table data
 --go from 0000 to 1000. Replace the far left zero with 1
-INSERT INTO Producer Values ('Producer#0001','produce',1000,5);
-INSERT INTO Producer Values ('Producer#0002','meat',1000,7);
-INSERT INTO Producer Values ('Producer#0003','dryGoods',1004,7);
-INSERT INTO Producer Values ('Producer#0004','fruit',1000,9);
-INSERT INTO Producer Values ('Producer#0005','clothes',1000,3);
-INSERT INTO Producer Values ('Producer#0006','electronics',1004,11);
-INSERT INTO Producer Values ('Producer#0007','furniture',1000,10);
-INSERT INTO Producer Values ('Producer#0008','meat',1000,9);
-INSERT INTO Producer Values ('Producer#0009','clothes',1004,7);
-INSERT INTO Producer Values ('Producer#0010','produce',1000,8);
-INSERT INTO Producer Values ('Producer#0011','meat',1000,11);
-INSERT INTO Producer Values ('Producer#0012','dryGoods',1004,5);
+INSERT INTO Producer Values ('Producer#0001','produce',1000);
+INSERT INTO Producer Values ('Producer#0002','meat',1000);
+INSERT INTO Producer Values ('Producer#0003','dryGoods',1004);
+INSERT INTO Producer Values ('Producer#0004','fruit',1000);
+INSERT INTO Producer Values ('Producer#0005','clothes',1000);
+INSERT INTO Producer Values ('Producer#0006','electronics',1004);
+INSERT INTO Producer Values ('Producer#0007','furniture',1000);
+INSERT INTO Producer Values ('Producer#0008','meat',1000);
+INSERT INTO Producer Values ('Producer#0009','clothes',1004);
+INSERT INTO Producer Values ('Producer#0010','produce',1000);
+INSERT INTO Producer Values ('Producer#0011','meat',1000);
+INSERT INTO Producer Values ('Producer#0012','dryGoods',1004);
 
 --Supplier: Table data
 --go from 0000 to 1000. Replace the far left zero with 1
-INSERT INTO Supplier Values ('Supplier#000000001',1000,9);
-INSERT INTO Supplier Values ('Supplier#000000002',1000,9);
-INSERT INTO Supplier Values ('Supplier#000000003',1001,8);
-INSERT INTO Supplier Values ('Supplier#000000004',1002,7);
-INSERT INTO Supplier Values ('Supplier#000000005',1003,5);
-INSERT INTO Supplier Values ('Supplier#000000006',1003,5);
-INSERT INTO Supplier Values ('Supplier#000000007',1002,7);
-INSERT INTO Supplier Values ('Supplier#000000008',1004,2);
-INSERT INTO Supplier Values ('Supplier#000000009',1005,11);
-INSERT INTO Supplier Values ('Supplier#000000010',1005,11);
+INSERT INTO Supplier Values ('Supplier#000000001',1000);
+INSERT INTO Supplier Values ('Supplier#000000002',1000);
+INSERT INTO Supplier Values ('Supplier#000000003',1001);
+INSERT INTO Supplier Values ('Supplier#000000004',1002);
+INSERT INTO Supplier Values ('Supplier#000000005',1003);
+INSERT INTO Supplier Values ('Supplier#000000006',1003);
+INSERT INTO Supplier Values ('Supplier#000000007',1002);
+INSERT INTO Supplier Values ('Supplier#000000008',1004);
+INSERT INTO Supplier Values ('Supplier#000000009',1005);
+INSERT INTO Supplier Values ('Supplier#000000010',1005);
 
 --Product: Table data
 INSERT INTO Product Values (10000002,'Supplier#000000002','produce',5.96);
