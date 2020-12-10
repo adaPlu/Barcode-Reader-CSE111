@@ -610,7 +610,7 @@ def main():
                     closeConnection(conn, database)
                 elif selection == '10': 
                     print("Store Customer List:")
-                    storeID=input("Enter storeID to display product list: ")
+                    storeID=input("Enter storeID to display customer list: ")
                     conn = openConnection(database)
                     with conn:
                         printCustomer(conn, storeID)
