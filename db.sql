@@ -1,3 +1,18 @@
+--Deletes all Data in Tables
+--/*
+delete from  Inventory;
+delete from Producer;
+delete from Supplier;
+delete from Customer;
+delete from Product;
+delete from Store;
+delete from City;
+delete from Country;
+delete from StoreSupp;
+delete from ProductCustomer;
+--*/
+
+
 ------------------------------TABLES CREATED------------------------------
 
 CREATE TABLE IF NOT EXISTS Inventory(
@@ -42,7 +57,7 @@ CREATE TABLE IF NOT EXISTS Store(
 
 CREATE TABLE IF NOT EXISTS Country(
  c_countryKey  INT(15,0) not NULL,
- c_name    VARCHAR(25) not NULL
+ c_name    VARCHAR(25) not NULL,
  c_shippingRate  DECIMAL(10,0) not NULL
 );
 
@@ -136,6 +151,16 @@ INSERT INTO Customer Values ('Customer#000000007','Store#002',10000001);
 INSERT INTO Customer Values ('Customer#000000008','Store#003',10000002);
 INSERT INTO Customer Values ('Customer#000000009','Store#004',10100001);
 INSERT INTO Customer Values ('Customer#000000010','Store#005',11140002);
+INSERT INTO Customer Values ('C1','S1',1114);
+INSERT INTO Customer Values ('C2','S1',1006);
+INSERT INTO Customer Values ('C3','S1',1000);
+INSERT INTO Customer Values ('C4','S1',1010);
+INSERT INTO Customer Values ('C5','S2',1000);
+INSERT INTO Customer Values ('C6','S4',1114);
+INSERT INTO Customer Values ('C7','S4',1000);
+INSERT INTO Customer Values ('C8','S4',1000);
+INSERT INTO Customer  Values ('C9','S5',1010);
+INSERT INTO Customer Values ('C10','S5',1114);
 
 
 --Store: Table data
@@ -153,6 +178,16 @@ INSERT INTO Store Values ('Store#005',1002,'dryGoods');
 INSERT INTO Store Values ('Store#006',1002,'clothes');
 INSERT INTO Store Values ('Store#007',1003,'clothes');
 INSERT INTO Store Values ('Store#008',1002,'electronics');
+INSERT INTO Store Values ('S1',01, 'meat');
+INSERT INTO Store Values ('S2',10, 'food');
+INSERT INTO Store Values ('S3',09, 'electronics');
+INSERT INTO Store Values ('S4',08, 'clothes');
+INSERT INTO Store Values ('S5',07, 'food');
+INSERT INTO Store Values ('S6',06, 'food');
+INSERT INTO Store Values ('S7',05, 'electronics');
+INSERT INTO Store Values ('S8',04, 'clothes');
+INSERT INTO Store Values ('S9',03,'electronics');
+INSERT INTO Store Values ('S10',02, 'produce');
 
 
 --Country: Table data
@@ -237,37 +272,16 @@ INSERT INTO ProductCustomer Values ('Customer#000000007',10000001);
 INSERT INTO ProductCustomer Values ('Customer#000000008',10000002);
 INSERT INTO ProductCustomer Values ('Customer#000000009',10100001);
 INSERT INTO ProductCustomer Values ('Customer#000000010',11140002);
+INSERT INTO ProductCustomer Values ('C1',1114);
+INSERT INTO ProductCustomer Values ('C2',1006);
+INSERT INTO ProductCustomer Values ('C3',1000);
+INSERT INTO ProductCustomer Values ('C4',1010);
+INSERT INTO ProductCustomer Values ('C5',1000);
+INSERT INTO ProductCustomer Values ('C6',1114);
+INSERT INTO ProductCustomer Values ('C7',1000);
+INSERT INTO ProductCustomer Values ('C8',1000);
+INSERT INTO ProductCustomer Values ('C9',1010);
+INSERT INTO ProductCustomer Values ('C10',1114);
 
-
-------------------------------TABLE DISPLAY------------------------------
-SELECT *
-FROM Inventory;
-
-SELECT *
-FROM Producer;
-
-SELECT *
-FROM Supplier;
-
-SELECT *
-FROM Product;
-
-SELECT *
-FROM Customer;
-
-SELECT *
-FROM Store;
-
-SELECT *
-FROM Country;
-
-SELECT *
-FROM City;
-
-SELECT *
-FROM StoreSupp;
-
-SELECT *
-FROM ProductCustomer;
 
 
