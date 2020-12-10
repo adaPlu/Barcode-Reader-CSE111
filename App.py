@@ -112,6 +112,22 @@ def checkPrice(_conn, barcode):
     except Error as e:
         print(e)
 
+def printProduct(_conn):
+    try:   
+
+        sql = """SELECT DISTINCT * FROM Product ;"""
+        cur = _conn.cursor()
+        cur.execute(sql)
+    
+        rows = cur.fetchall()
+        print("Barcode, SupplierID, Type, Price")
+        for row in rows: 
+            l = '{:<10} {:<10} {:<10} {:<10} '.format(row[0], row[1], row[2], row[3])
+            print(l)
+
+    except Error as e:
+        print(e)
+
 def printInventory(_conn, storeID):
     try:   
 
@@ -153,7 +169,7 @@ def saveInventory(_conn, storeID):
 def printSupplier(_conn, storeID):
     try:   
 
-        sql = """SELECT DISTINCT s_supplierID, ci_name, c_name, c_shippingRate FROM Supplier, StoreSupp, City, Country WHERE stu_storeID = '{}' AND stu_suppID = s_supplierID AND s_cityKey = ci_cityKey AND ci_countryKey = c_countryKey;""".format(storeID)
+        sql = """SELECT DISTINCT s_supplierID, ci_name, c_name, c_shippingRate FROM Supplier, StoreSupp, City, Country, Product WHERE stu_storeID = '{}' AND stu_suppID = s_supplierID AND s_cityKey = ci_cityKey AND ci_countryKey = c_countryKey;""".format(storeID)
         cur = _conn.cursor()
         cur.execute(sql)
     
@@ -321,10 +337,10 @@ def addProduct(_conn, _p_barcode, supplier, typ, price):
     except Error as e:
         print(e)    
 
-def addSupplier(_conn, s_supplierID, s_cityKey, s_countryKey):
+def addSupplier(_conn, s_supplierID, s_cityKey):
     try:   
     
-        sql = """INSERT INTO Supplier Values ({},{},{});""".format(s_supplierID, s_cityKey, s_countryKey)
+        sql = """INSERT INTO Supplier Values ({},{});""".format(s_supplierID, s_cityKey)
 
         cur = _conn.cursor()
         
@@ -480,6 +496,7 @@ def main():
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
+                        printInventory(conn, storeID)
                         barcode=input("Enter barcode of Product to Remove:")
                         sold=input("Enter amount sold:")
                         sql = """Select i_stock from Inventory WHERE i_storeID = '{}' AND i_barcode = {}; """.format(storeID, barcode)
@@ -534,6 +551,7 @@ def main():
                     print ("Remove Product:")
                     conn = openConnection(database)
                     with conn:
+                        printAllProduct(conn)
                         barcode=input("Enter barcode of Product to Remove:")
                         deleteProduct(conn, barcode)
                     closeConnection(conn, database)
@@ -560,19 +578,15 @@ def main():
                         storeID=input("Enter storeID of Inventory:")
                         barcode=input("Enter barcode of Product to Add:")
                         recieved=input("Enter amount recieved:")
-                        #addToInventory(conn,storeID, barcode, stock)
                         sql = """Select i_stock from Inventory WHERE i_storeID = '{}' AND i_barcode = '{}'; """.format(storeID, barcode)
                         cur = conn.cursor()
                         cur.execute(sql)
                         rows = cur.fetchall()
-                        #print(cur.rowcount)
                         if  cur.rowcount == -1:
-                            #print("Barcode not present in inventory.")
                             addToInventory(conn,storeID, barcode, recieved)
                         else:
                             
                             stock = rows[0][0] + int(recieved)
-                            #print(stock)
                             setInventoryStock(conn,storeID, barcode, stock)
 
                     closeConnection(conn, database)
@@ -581,6 +595,7 @@ def main():
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
+                        printInventory(conn, storeID)
                         barcode=input("Enter barcode of Product to Remove:")
                         sold=input("Enter amount sold:")
                         sql = """Select i_stock from Inventory WHERE i_storeID = {} AND i_barcode = {}; """.format(storeID, barcode)
