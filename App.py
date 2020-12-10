@@ -112,7 +112,7 @@ def checkPrice(_conn, barcode):
     except Error as e:
         print(e)
 
-def printProduct(_conn):
+def printAllProduct(_conn):
     try:   
 
         sql = """SELECT DISTINCT * FROM Product ;"""
@@ -477,7 +477,7 @@ def main():
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
-                        printProduct(conn)
+                        printAllProduct(conn)
                         barcode=input("Enter barcode of Product to Add:")
                         recieved=input("Enter amount recieved:")
                         sql = """Select i_stock from Inventory WHERE i_storeID = '{}' AND i_barcode = '{}'; """.format(storeID, barcode)
@@ -577,7 +577,7 @@ def main():
                     conn = openConnection(database)
                     with conn:
                         storeID=input("Enter storeID of Inventory:")
-                        printProduct(conn)
+                        printAllProduct(conn)
                         barcode=input("Enter barcode of Product to Add:")
                         recieved=input("Enter amount recieved:")
                         sql = """Select i_stock from Inventory WHERE i_storeID = '{}' AND i_barcode = '{}'; """.format(storeID, barcode)
