@@ -192,7 +192,7 @@ def saveSupplier(_conn, storeID):
         cur.execute(sql)
     
         rows = cur.fetchall()
-        with open('output/Supplier_'+ storeID +'.csv', mode='w') as inventory_file:
+        with open('output/Suppliers_'+ storeID +'.csv', mode='w') as inventory_file:
             inventory_writer = csv.writer(inventory_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             header = ["SupplierID, City, Country, ShippingRate"]
             inventory_writer.writerow(header)
@@ -274,7 +274,7 @@ def saveCustomer(_conn, storeID):
                 inventory_writer.writerow(row)
                 
        
-        print("output/Saving data to Customer_" + storeID +".csv...")
+        print("output/Saving data to Customers_" + storeID +".csv...")
     except Error as e:
         print(e)
 
@@ -685,7 +685,7 @@ def main():
                         selection=input("Enter Selection:") 
 
                         if selection == 'y':
-                            saveAllSupplier(conn, storeID)
+                            saveSupplier(conn, storeID)
 
                     closeConnection(conn, database)
                 elif selection == '12': 
