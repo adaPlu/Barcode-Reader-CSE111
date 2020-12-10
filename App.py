@@ -505,10 +505,10 @@ def main():
     
                         rows = cur.fetchall()
                         stock = rows[0][0] - int(sold)
-                        if stock <= 0:
+                        if stock == 0:
                             removeFromInventory(conn,storeID, barcode)
                         else:
-                            subtractFromInventory(conn,storeID, barcode, stock)
+                            setInventoryStock(conn,storeID, barcode, stock)
 
                     closeConnection(conn, database)
                 elif selection == '6': 
@@ -604,7 +604,6 @@ def main():
     
                         rows = cur.fetchall()
                         stock = rows[0][0] - int(sold)
-                        #print(stock)
                         if stock == 0:
                             removeFromInventory(conn,storeID, barcode)
                         else:
