@@ -247,6 +247,7 @@ INSERT INTO StoreSupp Values ('Store#001','Supplier#000000001');
 INSERT INTO StoreSupp Values ('Store#001','Supplier#000000002');
 INSERT INTO StoreSupp Values ('Store#001','Supplier#000000003');
 INSERT INTO StoreSupp Values ('Store#001','Supplier#000000004');
+INSERT INTO StoreSupp Values ('Store#001','Supplier#000000005');
 INSERT INTO StoreSupp Values ('Store#002','Supplier#000000002');
 INSERT INTO StoreSupp Values ('Store#003','Supplier#000000003');
 INSERT INTO StoreSupp Values ('Store#003','Supplier#000000002');
@@ -254,32 +255,13 @@ INSERT INTO StoreSupp Values ('Store#003','Supplier#000000005');
 INSERT INTO StoreSupp Values ('Store#004','Supplier#000000001');
 INSERT INTO StoreSupp Values ('Store#004','Supplier#000000002');
 INSERT INTO StoreSupp Values ('Store#004','Supplier#000000003');
-INSERT INTO StoreSupp Values ('Store#005','Supplier#000000001');
+INSERT INTO StoreSupp Values ('Store#005','Supplier#000000004');
 INSERT INTO StoreSupp Values ('Store#005','Supplier#000000002');
-INSERT INTO StoreSupp Values ('Store#005','Supplier#000000003');
+INSERT INTO StoreSupp Values ('Store#005','Supplier#000000005');
 INSERT INTO StoreSupp Values ('Store#006','Supplier#000000010');
 INSERT INTO StoreSupp Values ('Store#007','Supplier#000000009');
 INSERT INTO StoreSupp Values ('Store#008','Supplier#000000011');
 
-INSERT INTO Inventory Values ('Store#001',10000002,3);
-INSERT INTO Inventory Values ('Store#001',10100001,7);
-INSERT INTO Inventory Values ('Store#001',11140001,65);
-INSERT INTO Inventory Values ('Store#001',10060001,11);
-INSERT INTO Inventory Values ('Store#001',10007002,1);
-INSERT INTO Inventory Values ('Store#001',10100801,12);
-INSERT INTO Inventory Values ('Store#001',10000901,18);
-INSERT INTO Inventory Values ('Store#001',11140201,1);
-INSERT INTO Inventory Values ('Store#002',10000001,5);
-INSERT INTO Inventory Values ('Store#002',10000002,1);
-INSERT INTO Inventory Values ('Store#003',10100001,7);
-INSERT INTO Inventory Values ('Store#003',10000001,23);
-INSERT INTO Inventory Values ('Store#003',11140001,65);
-INSERT INTO Inventory Values ('Store#004',10060001,11);
-INSERT INTO Inventory Values ('Store#004',10007002,1);
-INSERT INTO Inventory Values ('Store#004',10100801,12);
-INSERT INTO Inventory Values ('Store#005',10000901,18);
-INSERT INTO Inventory Values ('Store#005',11140201,1);
-INSERT INTO Inventory Values ('Store#005',10000001,35);
 
 --ProductCustomer
 --Replace the far left 0 with 1

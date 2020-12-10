@@ -1,0 +1,6 @@
+"CustomerID, StoreID, Barcode"
+Customer#000000001,Store#001,11140001
+Customer#000000002,Store#001,10060001
+Customer#000000003,Store#001,10007002
+Customer#000000004,Store#001,10100801
+Customer#000000005,Store#001,10000901

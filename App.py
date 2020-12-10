@@ -451,7 +451,7 @@ def main():
                     print(entry, clerkMenu[entry])
                 selection=input("Enter Selection:") 
                 if selection =='1': 
-                    print ("Check Stock:")
+                    print ("Check Stock: ")
                     storeID=input("Enter store ID:") 
                     barcode=input("Enter barcode:")
                     conn = openConnection(database)
@@ -459,7 +459,7 @@ def main():
                         checkStock(conn,barcode, storeID)
                     closeConnection(conn, database)
                 elif selection == '2': 
-                    print ("Check Price:")
+                    print ("Check Price: ")
                     barcode=input("Enter barcode:")
                     conn = openConnection(database)
                     with conn:
